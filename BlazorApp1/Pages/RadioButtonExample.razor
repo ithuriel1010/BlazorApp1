@@ -1,0 +1,149 @@
+﻿@page "/RadioButtonExample"
+@using System.ComponentModel.DataAnnotations
+
+<h1>Radio Button Group Test</h1>
+
+@if (page == 1)
+{
+<EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label>
+        Płeć:
+        <InputRadio name="sex" SelectedValue="1" @bind-Value="_model.Sex" />
+        @k
+    </label>
+    <label>
+        <InputRadio name="sex" SelectedValue="2" @bind-Value="_model.Sex" />
+        @m
+    </label>
+
+    <h2></h2>
+    <label>
+        Wiek:
+        <InputNumber @bind-Value="_wiek.lata" />
+    </label>
+
+    <h2></h2>
+
+    <label>@x</label>
+    <button type="submit">Submit</button>
+
+</EditForm>
+}
+else if (page == 2)
+{
+<EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label>
+        Pytanie 1:
+        <InputRadio name="jeden" SelectedValue="3" @bind-Value="_jeden.jeden" />
+        @_jeden.o1
+    </label>
+    <label>
+        <InputRadio name="jeden" SelectedValue="4" @bind-Value="_jeden.jeden" />
+        @_jeden.o2
+    </label>
+
+    <h2></h2>
+    <label>
+        Pytanie 2:
+        <InputRadio name="dwa" SelectedValue="1" @bind-Value="_dwa.dwa" />
+        @_dwa.o1
+    </label>
+    <label>
+        <InputRadio name="dwa" SelectedValue="2" @bind-Value="_dwa.dwa" />
+        @_dwa.o2
+    </label>
+
+    <button type="submit">Submit</button>
+
+    <h2></h2>
+
+    <label>@x</label>
+</EditForm>
+}
+
+
+
+@code {
+
+    String k = "Kobieta";
+    String m = "Mężczyzna";
+    String x = null;
+    int page = 1;
+
+    private Model _model = new Model();
+    private Wiek _wiek = new Wiek();
+    private Pytanie1 _jeden = new Pytanie1();
+    private Pytanie2 _dwa = new Pytanie2();
+
+
+    private void HandleValidSubmit()
+    {
+        if (page == 1)
+        {
+            if (_wiek.lata >= 50 && @_model.Sex == 1)
+            {
+                x = "Jesteś stara! Przykro mi";
+            }
+            else if (_wiek.lata <= 50 && @_model.Sex == 1)
+            {
+                x = "Jesteś młoda! Ciesz się!";
+            }
+            else if (_wiek.lata <= 50 && @_model.Sex == 2)
+            {
+                x = "Jesteś młody! Ciesz się!";
+            }
+            else if (_wiek.lata >= 50 && @_model.Sex == 2)
+            {
+                x = "Jesteś stary! Przykro mi";
+            }
+            else
+            {
+                x = "AAA";
+            }
+
+            page = 2;
+        }
+        else if (page == 2)
+        {
+            x = "AAA";
+
+        }
+
+    }
+
+    public class Model
+    {
+        [Range(1, 2, ErrorMessage = "Wybierz płeć")]
+        public int Sex { get; set; }
+    }
+
+    public class Wiek
+    {
+        [Range(1, 120, ErrorMessage = "Najstarszy żyjący człowiek ma 120 lat i nie sądze abyś to był ty")]
+        public int lata { get; set; }
+    }
+
+    public class Pytanie1
+    {
+        public String o1 = "Opcja1";
+        public String o2 = "Opcja2";
+        [Range(3, 4, ErrorMessage = "Wybierz")]
+        public int jeden { get; set; }
+    }
+
+    public class Pytanie2
+    {
+        public String o1 = "Opcja1";
+        public String o2 = "Opcja2";
+        [Range(1, 2, ErrorMessage = "Wybierz")]
+        public int dwa { get; set; }
+    }
+
+
+}
