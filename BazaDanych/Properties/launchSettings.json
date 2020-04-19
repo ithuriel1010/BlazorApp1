@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BazaDanych": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\Ola\\source\\repos\\BlazorApp1\\BazaDanych"
+    }
+  }
+}

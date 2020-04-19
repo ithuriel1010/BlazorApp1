@@ -1,117 +1,1009 @@
 ﻿@page "/RadioButtonExample"
 @using System.ComponentModel.DataAnnotations
+@using BazaDanych
+@using EFGetStarted
 
-<h1>Radio Button Group Test</h1>
+<h1>ANKIETA!</h1>
+
+
 
 @if (page == 1)
 {
-<EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <link rel="stylesheet" href="beautiful-checkbox.css">
+        @*<img src="/Images/Dragon3.png" asp-append-version="true" width="300px" />*@
 
     <label>
-        Płeć:
-        <InputRadio name="sex" SelectedValue="1" @bind-Value="_model.Sex" />
-        @k
+        1. Płeć:
+        @*<InputRadio name="sex" SelectedValue="1" @bind-Value="_model.Sex" />
+        @k*@
+        <div class="pretty p-icon p-round">
+            <InputRadio SelectedValue="1" @bind-Value="_model.Sex" />
+            <div class="state p-primary">
+                <i class="icon mdi mdi-check"></i>
+                <label>@k</label>
+            </div>
+        </div>
     </label>
     <label>
-        <InputRadio name="sex" SelectedValue="2" @bind-Value="_model.Sex" />
-        @m
+        @*<InputRadio name="sex" SelectedValue="2" @bind-Value="_model.Sex" />
+        @m*@
+        <div class="pretty p-icon p-round">
+            <InputRadio SelectedValue="2" @bind-Value="_model.Sex" />
+            <div class="state p-primary">
+                <i class="icon mdi mdi-check"></i>
+                <label>@m</label>
+            </div>
+        </div>
     </label>
 
-    <h2></h2>
-    <label>
-        Wiek:
-        <InputNumber @bind-Value="_wiek.lata" />
-    </label>
+        <h2></h2>
+        <label>
+            2. Wiek:
+            <InputNumber @bind-Value="_wiek.lata" />
+        </label>
 
-    <h2></h2>
+        <h2></h2>
 
-    <label>@x</label>
-    <button type="submit">Submit</button>
+        <label>
+            3. Wykształcenie:<h2></h2>
+            @for (int i = 0; i < wyksztalcenie.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.wyksztalcenie" />
+            @wyksztalcenie[i] <h2></h2>*@
+        <div class="pretty p-icon p-round">
+            <InputRadio SelectedValue=i @bind-Value="_jeden.wyksztalcenie" />
+            <div class="state p-primary">
+                <i class="icon mdi mdi-check"></i>
+                <label>@wyksztalcenie[i]</label>
+            </div>
+        </div>
+            }
+        </label>
 
-</EditForm>
+        <h2></h2>
+
+        <label>
+            4. Jak ocenia Pani/Pan swój stan zdrowia?<h2></h2>
+            @for (int i = 0; i < zdrowie.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind="_jeden.zdrowie" />
+            @zdrowie[i] <h2></h2>*@
+        <div class="pretty p-icon p-round">
+            @*<input type="radio" name="icon_solid" @bind-value="_jeden.zdrowie" SelectedValue=i />*@
+            <InputRadio SelectedValue=i @bind-Value="_jeden.zdrowie" />
+            <div class="state p-primary">
+                <i class="icon mdi mdi-check"></i>
+                <label>@zdrowie[i]</label>
+            </div>
+        </div>
+
+            }
+        </label>
+
+        <h2></h2>
+
+        <label>
+            5. Z jakimi chorobami się Pani/Pan zmaga?:<h2></h2>
+            @for (int i = 0; i < choroby.Length; i++)
+            {
+                var m = choroby[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, chorobyList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
 }
 else if (page == 2)
 {
-<EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-    <label>
-        Pytanie 1:
-        <InputRadio name="jeden" SelectedValue="3" @bind-Value="_jeden.jeden" />
-        @_jeden.o1
-    </label>
-    <label>
-        <InputRadio name="jeden" SelectedValue="4" @bind-Value="_jeden.jeden" />
-        @_jeden.o2
-    </label>
+        <label>
+            6. Jakie dolegliwości pojawiły się u Pani/Pana wraz z wiekiem?<h2></h2>
+            @for (int i = 0; i < dolegliwosci.Length; i++)
+            {
+                var m = dolegliwosci[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, dolegliwosciZWiekiemList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
 
-    <h2></h2>
-    <label>
-        Pytanie 2:
-        <InputRadio name="dwa" SelectedValue="1" @bind-Value="_dwa.dwa" />
-        @_dwa.o1
-    </label>
-    <label>
-        <InputRadio name="dwa" SelectedValue="2" @bind-Value="_dwa.dwa" />
-        @_dwa.o2
-    </label>
+        <label>
+            7. Czy odczuwa Pani/Pan problemy w samodzielnym wykonywaniu następujących czynności?<h2></h2>
+            @for (int i = 0; i < czynnosci.Length; i++)
+            {
+                var m = czynnosci[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, trudneCzynnosciList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
 
-    <button type="submit">Submit</button>
+        <h2></h2>
 
-    <h2></h2>
+        <label>
+            8. Czy potrzebuje Pani/Pan pomocy w wykonywaniu wcześniej zaznaczonych czynności?<h2></h2>
+            @for (int i = 0; i < pytanie.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.pomoc" />
+                @pytanie[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.pomoc" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@pytanie[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
 
-    <label>@x</label>
-</EditForm>
+        <h2></h2>
+
+
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
 }
+else if (page == 3)
+{
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <label>
+            9. Z kim Pani/Pan mieszka?:<h2></h2>
+            @for (int i = 0; i < mieszkanie.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.mieszkanieZaznacz" />
+            @mieszkanie[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.mieszkanieZaznacz" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@mieszkanie[i]</label>
+                    </div>
+                </div>
+
+            }
+        </label>
+
+        <label>
+            10. Czy ma Pani/Pan w swoim otoczeniu osobę, która może pomóc w codziennych obowiązkach? Jeśli tak, to kto to jest?<h2></h2>
+            @for (int i = 0; i < osobyBliskie.Length; i++)
+            {
+                var m = osobyBliskie[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, osobyBliskieList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
+
+        <label>
+            11. Czy czuje się Pani/Pan samotna/y?<h2></h2>
+            @for (int i = 0; i < pytanie.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.samotnosc" />
+            @pytanie[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.samotnosc" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@pytanie[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+
+        <label>
+            12. Czy czuje się Pani/Pan w swoim domu bezpiecznie?<h2></h2>
+            @for (int i = 0; i < pytanie.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
+            @pytanie[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@pytanie[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+
+        <h2></h2>
 
 
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
+}
+else if (page == 4)
+{
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <label>
+            13. Co mogłoby zwiększyć u Pani/Pana poczucie bezpieczeństwa?<h2></h2>
+            @for (int i = 0; i < poprawabezp.Length; i++)
+            {
+                var m = poprawabezp[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, poprawabezpList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            14. Jak ocenia Pani/Pan swoje oswojenie z nowoczesną technologią? (obsługa smartfona, komputera, telewizora itp.)<h2></h2>
+            @for (int i = 0; i < pytaniedobrze.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
+            @pytaniedobrze[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@pytaniedobrze[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            15. Które z poniższych urządzeń wykorzystuje Pani/Pan co najmniej kilka razy w tygodniu?<h2></h2>
+            @for (int i = 0; i < urzadzenia.Length; i++)
+            {
+                var m = urzadzenia[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, urzadzeniaList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            16. Czy korzysta Pani/Pan z internetu?<h2></h2>
+            @for (int i = 0; i < czestosc.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
+            @czestosc[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@czestosc[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+
+        <label>
+            17. Ile czasu dziennie spędza Pani/Pan przed komputerem/smartfonem?<h2></h2>
+            @for (int i = 0; i < czestoscGodziny.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
+            @czestoscGodziny[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@czestoscGodziny[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+
+        <h2></h2>
+
+
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
+}
+else if (page == 5)
+{
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <label>
+            18. Jak zabezpiecza się Pani/Pan w przypadku sytuacji, w której będzie potrzebna nagła pomoc?<h2></h2>
+            @for (int i = 0; i < zabezpieczenia.Length; i++)
+            {
+                var m = zabezpieczenia[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, zabezpieczeniaList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            19. Czym jest dla Pani/Pana monitoring?<h2></h2>
+            @for (int i = 0; i < monitoring.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.monitoring" />
+            @monitoring[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.monitoring" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@monitoring[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            20. Czy ma Pani/Pan monitoring zainstalowany w miejscu zamieszkania?<h2></h2>
+            @for (int i = 0; i < monitoringObecnosc.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.monitoring1" />
+            @monitoringObecnosc[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.monitoring1" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@monitoringObecnosc[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+
+        <h2></h2>
+
+
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
+}
+else if (page == 6)
+{
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <label>
+            Domowy monitoring wizyjny to system kamer pozwalający na śledzenie z odległości zdarzeń rejestrowanych.
+            Taki monitoring ma zarówno wielu zwolenników, jak i przeciwników - głównie ze względu na prywatność domowników.
+            Jednak kamery wizyjne nie oznaczają koniecznie zwykłych kamer nagrywających obraz - mogą to być inteligentne kamery termowizyjne,
+            które same potrafią zlokalizować osobę i wykryć jej ruch, np. upadek.<h2></h2>
+            <img src="/Images/kamera.png" asp-append-version="true" width="300px" /><h2></h2>
+
+            21. Czy zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
+            @for (int i = 0; i < zgoda.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
+            @zgoda[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@zgoda[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            Domowy system czujników to układ specjalnych przetworników umiejscowionych w różnych częściach domu w celu zapewnienia domownikom bezpieczeństwa.
+            Przykładowymi czujnikami są: czujniki wykrywające położenie, czujnik przepływu gazu/dymu (w kuchni), czujnik zużytej ilości wody (w kuchni, łazience).
+            Czujniki te w żaden sposób nie przeszkadzają w codziennym życiu, są niewielkie i zwykle zamontowane w niewidocznych miejscach.<h2></h2>
+            <img src="/Images/czujnik.png" asp-append-version="true" width="300px" /><h2></h2>
+
+            22. Czy zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
+            @for (int i = 0; i < zgoda.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
+            @zgoda[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@zgoda[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            Roboty interaktywne to urządzenia wspomagające i kontrolujące domowników. Są przeznaczone głównie dla samotnie mieszkających osób.
+            Zadaniem robotów jest rozmowa, podtrzymywanie kontaktu, monitorowanie nietypowego zachowania (wskazującego np. na stan przedzawałowy),
+            wysyłanie alertów do personelu opieki w przypadku sytuacji awaryjnej i wykonywanie połączeń alarmowych. <h2></h2>
+            <img src="/Images/robot.png" asp-append-version="true" width="300px" /><h2></h2>
+            23. Czy zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
+            @for (int i = 0; i < zgoda.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
+            @zgoda[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@zgoda[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+
+
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
+}
+else if (page == 12)
+{
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <label>
+            6. Czy w Pani/Pana otoczeniu jest/była osoba z zaawansowaną chorobą (osoba wymagająca ciągłej opieki)?<h2></h2>
+            @for (int i = 0; i < taknie.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.choraosoba" />
+            @taknie[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.choraosoba" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@taknie[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            7. Czy mieszka Pani/Pan razem z osobą w podeszłym wieku?<h2></h2>
+            @for (int i = 0; i < taknie.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.mieszkaniezseniorem" />
+            @taknie[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.mieszkaniezseniorem" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@taknie[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+
+        <h2></h2>
+
+        <h2></h2>
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
+}
+else if (page == 13)
+{
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <label>
+            8. Czy opiekowała/opiekował się Pani/Pan tą osobą? Jeśli tak, to jak często? <h2></h2>
+            @for (int i = 0; i < opieka.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.opieka" />
+            @opieka[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.opieka" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@opieka[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+
+
+        <h2></h2>
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
+}
+else if (page == 14)
+{
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <label>
+            9. Czy czuje się Pani/Pan w swoim domu bezpiecznie?<h2></h2>
+            @for (int i = 0; i < pytanie.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
+            @pytanie[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@pytanie[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+
+        <label>
+            10. Co mogłoby zwiększyć u Pani/Pana poczucie bezpieczeństwa?<h2></h2>
+            @for (int i = 0; i < poprawabezp.Length; i++)
+            {
+                var m = poprawabezp[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, poprawabezpList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            11. Jak ocenia Pani/Pan swoje oswojenie z nowoczesną technologią? (obsługa smartfona, komputera, telewizora itp.)<h2></h2>
+            @for (int i = 0; i < pytaniedobrze.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
+            @pytaniedobrze[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@pytaniedobrze[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            12. Które z poniższych urządzeń wykorzystuje Pani/Pan co najmniej kilka razy w tygodniu?<h2></h2>
+            @for (int i = 0; i < urzadzenia.Length; i++)
+            {
+                var m = urzadzenia[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, urzadzeniaList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            13. Czy korzysta Pani/Pan z internetu?<h2></h2>
+            @for (int i = 0; i < czestosc.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
+            @czestosc[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@czestosc[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+
+        <label>
+            14. Ile czasu dziennie spędza Pani/Pan przed komputerem/smartfonem?<h2></h2>
+            @for (int i = 0; i < czestoscGodziny.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
+            @czestoscGodziny[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@czestoscGodziny[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+
+        <h2></h2>
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
+
+}
+else if (page == 15)
+{
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <label>
+            Domowy monitoring wizyjny to system kamer pozwalający na śledzenie z odległości zdarzeń rejestrowanych.
+            Taki monitoring ma zarówno wielu zwolenników, jak i przeciwników - głównie ze względu na prywatność domowników.
+            Jednak kamery wizyjne nie oznaczają koniecznie zwykłych kamer nagrywających obraz - mogą to być inteligentne kamery termowizyjne,
+            które same potrafią zlokalizować osobę i wykryć jej ruch, np. upadek.<h2></h2>
+            <img src="/Images/kamera.png" asp-append-version="true" width="300px" /><h2></h2>
+
+            15. Czy gdyby była/był Pani/Pan w podeszłym wieku, zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
+            @for (int i = 0; i < zgoda.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
+            @zgoda[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@zgoda[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            Domowy system czujników to układ specjalnych przetworników umiejscowionych w różnych częściach domu w celu zapewnienia domownikom bezpieczeństwa.
+            Przykładowymi czujnikami są: czujniki wykrywające położenie, czujnik przepływu gazu/dymu (w kuchni), czujnik zużytej ilości wody (w kuchni, łazience).
+            Czujniki te w żaden sposób nie przeszkadzają w codziennym życiu, są niewielkie i zwykle zamontowane w niewidocznych miejscach.<h2></h2>
+            <img src="/Images/czujnik.png" asp-append-version="true" width="300px" /><h2></h2>
+
+            16. Czy gdyby była/był Pani/Pan w podeszłym wieku, zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
+            @for (int i = 0; i < zgoda.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
+            @zgoda[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@zgoda[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+        <label>
+            Roboty interaktywne to urządzenia wspomagające i kontrolujące domowników. Są przeznaczone głównie dla samotnie mieszkających osób.
+            Zadaniem robotów jest rozmowa, podtrzymywanie kontaktu, monitorowanie nietypowego zachowania (wskazującego np. na stan przedzawałowy),
+            wysyłanie alertów do personelu opieki w przypadku sytuacji awaryjnej i wykonywanie połączeń alarmowych. <h2></h2>
+            <img src="/Images/robot.png" asp-append-version="true" width="300px" /><h2></h2>
+            17. Czy gdyby była/był Pani/Pan w podeszłym wieku, zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
+            @for (int i = 0; i < zgoda.Length; i++)
+            {
+                @*<InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
+            @zgoda[i] <h2></h2>*@
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@zgoda[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+
+
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    </EditForm>
+}
+else if(page==20)
+{
+    <h2>Dziękujemy za wypełnienie naszej ankiety!</h2>
+}
 
 @code {
 
     String k = "Kobieta";
     String m = "Mężczyzna";
+    Boolean grupa;
+    Boolean sex;
     String x = null;
     int page = 1;
 
     private Model _model = new Model();
     private Wiek _wiek = new Wiek();
-    private Pytanie1 _jeden = new Pytanie1();
-    private Pytanie2 _dwa = new Pytanie2();
+    private Strona1 _jeden = new Strona1();
+    Respondent respondent = new Respondent();
 
+    String[] wyksztalcenie = new String[] { "Podstawowe", "Gimnazjalne", "Zasadnicze zawodowe", "Średnie", "Wyższe" };
+
+    String[] zdrowie = new String[] { "Bardzo źle", "Źle", "Umiarkowanie", "Dobrze", "Bardzo dobrze" };
+
+    String[] choroby = new String[] { "zaburzenia widzenia", "zaburzenia słuchu", "choroby nadciśnieniowe", "choroby niedokrwienne serca", "zaburzenia rytmu serca",
+        "choroby nowotworowe", "padaczka", "cukrzyca", "choroby kręgosłupa", "niedowład kończyn", "choroby miażdżycowe", "choroby układu moczowego"};
+
+    String[] dolegliwosci = new String[] { "Pogorszenie wzroku", "pogorszenie słuchu", "problemy z pamięcią", "problemy z poruszaniem się", "problemy neurologiczne" };
+
+    String[] czynnosci = new String[] { "Zakupy codzienne", "Kąpiel", "Poruszanie się po pokoju", "Pochylanie się", "Kucanie",
+        "Podnoszenie i dźwiganie niewielkiego ciężaru", "Korzystanie z toalety", "Przygotowywanie posiłków", "Wstawanie z łóżka", "Pokonywanie schodów"};
+
+    String[] pytanie = new String[] { "Zdecydowanie tak", "Raczej tak", "Trudno powiedzieć", "Raczej nie", "Zdecydowanie nie" };
+
+    String[] pytaniedobrze = new String[] { "Dobrze", "raczej dobrze", "trudno powiedzieć", "raczej słabo", "słabo" };
+
+    String[] mieszkanie = new String[] { "Z nikim", "Partner", "Rodzina", "Współlokator", "Opiekun" };
+
+    String[] osobyBliskie = new String[] { "mąż/żona", "partner/partnerka", "dzieci", "wnuki", "zięć", "synowa", "rodzeństwo", "członkowie dalszej rodziny", "sąsiedzi",
+        "przyjaciele", "osoby wynajęte do pomocy"};
+
+    String[] poprawabezp = new String[] {"Zainstalowanie monitoringu wizyjnego", "zainstalowanie czujników (np. dymu)",
+        "zakupienie urządzeń elektronicznych z funkcją wysyłania powiadomień SOS", "zakupienie robota interaktywnego wspomagającego bezpieczeństwo",
+        "zdalny system kontrolujący urządzenia domowe"};
+
+    String[] urzadzenia = new String[] { "smartfon/tablet", "telewizor", "komputer/laptop", "czytnik ebook", "zegarek elektroniczny" };
+
+    String[] czestosc = new String[] { "Tak, codziennie", "tak, kilka razy w tygodniu", "tak, kilka razy na miesiąc", "Bardzo rzadko", "Nie, nie korzystam" };
+
+    String[] czestoscGodziny = new String[] { "Więcej niż 5 godzin", "3-5 godziny", "1-3 godziny", "mniej niż godzinę", "nie korzystam" };
+
+    String[] zabezpieczenia = new String[] { "telefon z klawiszem SOS", "opaska SOS", "monitoring domowy", "czujniki dymu", "opiekun/opiekunka" };
+
+    String[] monitoring = new String[] {"Urządzenie zwiększające poziom bezpieczeństwa", "Fajna nowinka techniczna", "Rzecz czasem przydatna", "Sprzęt do kontrolowania aktywności ludzi",
+        "Niepotrzebne kamery służące wyłącznie do szpiegowania"};
+
+    String[] monitoringObecnosc = new String[] { "Tak", "Miałem/Miałam", "Nie, ale się zastanawiam", "Nie", "Nigdy nawet o tym nie pomyślałam/em" };
+
+    String[] zgoda = new String[] { "Tak", "Mogłabym/Mógłbym to rozważyć", "Jest to dla mnie za drogie", "Nie, obsługa jest za trudna", "Nie, nie czułabym/czułbym się komfortowo" };
+
+    String[] taknie = new String[] { "Tak", "Nie" };
+
+    String[] opieka = new String[] { "Codziennie", "kilka razy w tygodniu", "kilka razy w miesiącu", "rzadziej", "nie opiekowałam/opiekowałem się wcale" };
+
+
+    public List<string> chorobyList { get; set; } = new List<string>();
+    public List<string> dolegliwosciList { get; set; } = new List<string>();
+    public List<string> dolegliwosciZWiekiemList { get; set; } = new List<string>();
+    public List<string> trudneCzynnosciList { get; set; } = new List<string>();
+    public List<string> osobyBliskieList { get; set; } = new List<string>();
+    public List<string> poprawabezpList { get; set; } = new List<string>();
+    public List<string> urzadzeniaList { get; set; } = new List<string>();
+    public List<string> zabezpieczeniaList { get; set; } = new List<string>();
+
+
+
+
+    void CheckboxClicked(string zaznaczonycheck, object checkedValue, List<string> lista)
+    {
+        if ((bool)checkedValue)
+        {
+            if (!lista.Contains(zaznaczonycheck))
+            {
+                lista.Add(zaznaczonycheck);
+            }
+        }
+        else
+        {
+            if (lista.Contains(zaznaczonycheck))
+            {
+                lista.Remove(zaznaczonycheck);
+            }
+        }
+    }
 
     private void HandleValidSubmit()
     {
+        EFGetStarted.Program program = new EFGetStarted.Program();
+
+
         if (page == 1)
         {
             if (_wiek.lata >= 50 && @_model.Sex == 1)
             {
-                x = "Jesteś stara! Przykro mi";
+                page = 2;
+                grupa = true;
+                sex = true;
+
             }
             else if (_wiek.lata <= 50 && @_model.Sex == 1)
             {
-                x = "Jesteś młoda! Ciesz się!";
+                page = 12;
+                grupa = false;
+                sex = true;
+
             }
             else if (_wiek.lata <= 50 && @_model.Sex == 2)
             {
-                x = "Jesteś młody! Ciesz się!";
+                page = 12;
+                grupa = false;
+                sex = false;
             }
             else if (_wiek.lata >= 50 && @_model.Sex == 2)
             {
-                x = "Jesteś stary! Przykro mi";
+                page = 2;
+                grupa = true;
+                sex = false;
             }
             else
             {
                 x = "AAA";
             }
 
-            page = 2;
+            respondent.Update(sex, grupa, _wiek.lata, wyksztalcenie[@_jeden.wyksztalcenie], new List<Choroba>(), new List<StanFizyczny>(), new List<OsobaBliska>(),
+                new List<OdczuciawDomu>(), new List<TechnologiaWiedza>(), new List<AwariaWiedza>(), new List<MonitoringOdczucia>(), new List<DoswiadczenieZSeniorem>());
+
+
+            foreach (var choroba1 in chorobyList)
+            {
+                var choroba = new Choroba { Nazwa = choroba1, Respondent = respondent };
+                respondent.Choroby.Add(choroba);
+
+            }
+            var stanfizyczny = new StanFizyczny { Respondent = respondent, Poziom = @_jeden.zdrowie };
+            respondent.StanyFizyczne.Add(stanfizyczny);
+
         }
         else if (page == 2)
         {
-            x = "AAA";
+            var stanfizyczny = new StanFizyczny { Respondent = respondent, Poziom = (4 - (trudneCzynnosciList.Count() / 2 - 1)) };
+            var stanfizyczny1 = new StanFizyczny { Respondent = respondent, Poziom = (4 - (dolegliwosciZWiekiemList.Count() - 1)) };
+            var stanfizyczny2 = new StanFizyczny { Respondent = respondent, Poziom = @_jeden.pomoc };
+
+            respondent.StanyFizyczne.Add(stanfizyczny);
+            respondent.StanyFizyczne.Add(stanfizyczny1);
+            page = 3;
+
+        }
+        else if (page == 3)
+        {
+            if (_jeden.mieszkanieZaznacz != 0)
+            {
+                var osobaBliska = new OsobaBliska { Respondent = respondent, Nazwa = mieszkanie[@_jeden.mieszkanieZaznacz] };
+            }
+
+            foreach (var osoba1 in osobyBliskieList)
+            {
+                var osoba = new OsobaBliska { Nazwa = osoba1, Respondent = respondent };
+                respondent.OsobyBliskie.Add(osoba);
+
+            }
+            var odczucia = new OdczuciawDomu { Respondent = respondent, Poziom = @_jeden.samotnosc };
+            var odczucia1 = new OdczuciawDomu { Respondent = respondent, Poziom = 4 - @_jeden.bezpieczenstwo };
+
+            respondent.OdczuciawDomus.Add(odczucia);
+            respondent.OdczuciawDomus.Add(odczucia1);
+            page = 4;
+
+        }
+        else if (page == 4)
+        {
+
+            var technologia = new TechnologiaWiedza { Respondent = respondent, Poziom = poprawabezpList.Count };
+            var technologia1 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.technologia };
+            var technologia2 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.internet };
+            var technologia3 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.internet2 };
+            var technologia4 = new TechnologiaWiedza { Respondent = respondent, Poziom = urzadzeniaList.Count };
+
+            respondent.TechnologiaWiedzas.Add(technologia);
+            respondent.TechnologiaWiedzas.Add(technologia1);
+            respondent.TechnologiaWiedzas.Add(technologia2);
+            respondent.TechnologiaWiedzas.Add(technologia3);
+            respondent.TechnologiaWiedzas.Add(technologia4);
+
+            page = 5;
+
+        }
+        else if (page == 5)
+        {
+
+            var awaria = new AwariaWiedza { Respondent = respondent, Poziom = zabezpieczeniaList.Count };
+            var odczuciaM = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.monitoring };
+            var odczuciaM1 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.monitoring1 };
+
+            respondent.AwariaWiedzas.Add(awaria);
+            respondent.MonitoringOdczucias.Add(odczuciaM);
+            respondent.MonitoringOdczucias.Add(odczuciaM1);
+
+            page = 6;
+
+        }
+        else if (page == 6)
+        {
+            page = 20;
+            var odczuciaM2 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.wizyjny };
+            var odczuciaM3 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.czujnik };
+            var odczuciaM4 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.robot };
+
+            respondent.MonitoringOdczucias.Add(odczuciaM2);
+            respondent.MonitoringOdczucias.Add(odczuciaM3);
+            respondent.MonitoringOdczucias.Add(odczuciaM4);
+            program.CreateRespondent(respondent);
+
+
+        }
+        else if (page == 12)
+        {
+            if (@_jeden.choraosoba == 0 || @_jeden.mieszkaniezseniorem == 0)
+            {
+                page = 13;
+
+            }
+            else
+            {
+                page = 14;
+            }
+
+            var doswiadczenie = new DoswiadczenieZSeniorem { Respondent = respondent, Poziom = 4 - 4 * @_jeden.choraosoba };
+            var doswiadczenie1 = new DoswiadczenieZSeniorem { Respondent = respondent, Poziom = 2 - 2 * @_jeden.mieszkaniezseniorem };
+
+            respondent.DoswiadczenieZSeniorems.Add(doswiadczenie);
+            respondent.DoswiadczenieZSeniorems.Add(doswiadczenie1);
+
+        }
+        else if (page == 13)
+        {
+            page = 14;
+            var doswiadczenie = new DoswiadczenieZSeniorem { Respondent = respondent, Poziom = 4 - _jeden.opieka };
+            respondent.DoswiadczenieZSeniorems.Add(doswiadczenie);
+
+        }
+        else if (page == 14)
+        {
+            page = 15;
+            var odczucia1 = new OdczuciawDomu { Respondent = respondent, Poziom = 4 - @_jeden.bezpieczenstwo };
+            var technologia = new TechnologiaWiedza { Respondent = respondent, Poziom = poprawabezpList.Count };
+            var technologia1 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.technologia };
+            var technologia2 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.internet };
+            var technologia3 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.internet2 };
+            var technologia4 = new TechnologiaWiedza { Respondent = respondent, Poziom = urzadzeniaList.Count };
+
+            respondent.TechnologiaWiedzas.Add(technologia);
+            respondent.TechnologiaWiedzas.Add(technologia1);
+            respondent.TechnologiaWiedzas.Add(technologia2);
+            respondent.TechnologiaWiedzas.Add(technologia3);
+            respondent.TechnologiaWiedzas.Add(technologia4);
+            respondent.OdczuciawDomus.Add(odczucia1);
+
+        }
+        else if (page == 15)
+        {
+            page = 20;
+            var odczuciaM2 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.wizyjny };
+            var odczuciaM3 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.czujnik };
+            var odczuciaM4 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.robot };
+
+            respondent.MonitoringOdczucias.Add(odczuciaM2);
+            respondent.MonitoringOdczucias.Add(odczuciaM3);
+            respondent.MonitoringOdczucias.Add(odczuciaM4);
+            program.CreateRespondent(respondent);
 
         }
 
@@ -129,21 +1021,61 @@ else if (page == 2)
         public int lata { get; set; }
     }
 
-    public class Pytanie1
+    public class Strona1
     {
-        public String o1 = "Opcja1";
-        public String o2 = "Opcja2";
-        [Range(3, 4, ErrorMessage = "Wybierz")]
-        public int jeden { get; set; }
-    }
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int wyksztalcenie { get; set; }
 
-    public class Pytanie2
-    {
-        public String o1 = "Opcja1";
-        public String o2 = "Opcja2";
-        [Range(1, 2, ErrorMessage = "Wybierz")]
-        public int dwa { get; set; }
-    }
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int zdrowie { get; set; }
 
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int pomoc { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int samotnosc { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int bezpieczenstwo { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int technologia { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int internet { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int internet2 { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int monitoring { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int monitoring1 { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int wizyjny { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int czujnik { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int robot { get; set; }
+
+        [Range(0, 1, ErrorMessage = "Wybierz")]
+        public int choraosoba { get; set; }
+
+        [Range(0, 1, ErrorMessage = "Wybierz")]
+        public int mieszkaniezseniorem { get; set; }
+
+        [Range(0, 4, ErrorMessage = "Wybierz")]
+        public int opieka { get; set; }
+
+        [Range(0, 5, ErrorMessage = "Wybierz")]
+        public int mieszkanieZaznacz { get; set; }
+
+        [Required]
+        public bool check { get; set; }
+    }
 
 }
