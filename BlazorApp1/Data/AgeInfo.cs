@@ -31,7 +31,7 @@ namespace BlazorApp1.Data
                 }
                 else
                 {
-                    x = "Osoby mode";
+                    x = "Osoby młode";
                 }
                 data.Add(new AgeData
                 {

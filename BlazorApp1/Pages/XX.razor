@@ -1,8 +1,8 @@
-﻿@page "/Pie chart"
+﻿@page "/Statystyki respondentów"
 @using BlazorApp1.Data;
 @inject IJSRuntime jsRunTime;
 
-<h1>Pie Chart</h1>
+<h1>@Info</h1>
 
 <div id="chartdiv"></div>
 
@@ -22,23 +22,27 @@
 
     AgeInfo ageInfo = new AgeInfo();
     List<AgeData> ageInfos = new List<AgeData>();
+    String Info = "Wybierz jaki wykres chcesz zobaczyć";
 
     private async Task GeneratePieChartBlazor()
     {
         wyksztalcenieInfos = wyksztalcenieInfo.GetData();
         await jsRunTime.InvokeVoidAsync("GeneratePieChart", wyksztalcenieInfos);
+        Info = "Wykształcenie";
     }
 
     private async Task SexChart()
     {
         sexInfos = sexInfo.GetSexData();
         await jsRunTime.InvokeVoidAsync("GeneratePieChart", sexInfos);
+        Info = "Płeć";
     }
 
     private async Task AgeChart()
     {
         ageInfos = ageInfo.GetAgeData();
         await jsRunTime.InvokeVoidAsync("GeneratePieChart", ageInfos);
+        Info = "Wiek";
     }
 
 }
