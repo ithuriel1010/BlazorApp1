@@ -1,72 +1,44 @@
-﻿@page "/FormsValidation"
-@using BlazorApp1.Data
+﻿@page "/Pie chart"
+@using BlazorApp1.Data;
+@inject IJSRuntime jsRunTime;
+
+<h1>Pie Chart</h1>
+
+<div id="chartdiv"></div>
+
+<button class="btn btn-primary" @onclick="GeneratePieChartBlazor">Wykształcenie</button>
+<button class="btn btn-primary" @onclick="SexChart">Płeć</button>
+<button class="btn btn-primary" @onclick="AgeChart">Wiek</button>
 
 
-<h1>Starfleet Starship Database</h1>
-
-<h2>New Ship Entry Form</h2>
-
-<EditForm Model="@_starship" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <p>
-        <label>
-            Identifier:
-            <InputText @bind-Value="_starship.Identifier" />
-        </label>
-    </p>
-    <p>
-        <label>
-            Description (optional):
-            <InputTextArea @bind-Value="_starship.Description" />
-        </label>
-    </p>
-    <p>
-        <label>
-            Primary Classification:
-            <InputSelect @bind-Value="_starship.Classification">
-                <option value="">Select classification ...</option>
-                <option value="Exploration">Exploration</option>
-                <option value="Diplomacy">Diplomacy</option>
-                <option value="Defense">Defense</option>
-            </InputSelect>
-        </label>
-    </p>
-    <p>
-        <label>
-            Maximum Accommodation:
-            <InputNumber @bind-Value="_starship.MaximumAccommodation" />
-        </label>
-    </p>
-    <p>
-        <label>
-            Engineering Approval:
-            <InputCheckbox @bind-Value="_starship.IsValidatedDesign" />
-        </label>
-    </p>
-    <p>
-        <label>
-            Production Date:
-            <InputDate @bind-Value="_starship.ProductionDate" />
-        </label>
-    </p>
-
-    <button type="submit">Submit</button>
-
-    <p>
-        <a href="http://www.startrek.com/">Star Trek</a>,
-        &copy;1966-2019 CBS Studios, Inc. and
-        <a href="https://www.paramount.com">Paramount Pictures</a>
-    </p>
-
-</EditForm>
 
 @code {
-    private Starship _starship = new Starship();
 
-    private void HandleValidSubmit()
+    WyksztalcenieInfo wyksztalcenieInfo = new WyksztalcenieInfo();
+    List<ChartData> wyksztalcenieInfos = new List<ChartData>();
+
+    SexInfo sexInfo = new SexInfo();
+    List<SexData> sexInfos = new List<SexData>();
+
+    AgeInfo ageInfo = new AgeInfo();
+    List<AgeData> ageInfos = new List<AgeData>();
+
+    private async Task GeneratePieChartBlazor()
     {
-        Console.WriteLine("OnValidSubmit");
+        wyksztalcenieInfos = wyksztalcenieInfo.GetData();
+        await jsRunTime.InvokeVoidAsync("GeneratePieChart", wyksztalcenieInfos);
     }
+
+    private async Task SexChart()
+    {
+        sexInfos = sexInfo.GetSexData();
+        await jsRunTime.InvokeVoidAsync("GeneratePieChart", sexInfos);
+    }
+
+    private async Task AgeChart()
+    {
+        ageInfos = ageInfo.GetAgeData();
+        await jsRunTime.InvokeVoidAsync("GeneratePieChart", ageInfos);
+    }
+
 }

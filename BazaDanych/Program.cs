@@ -14,23 +14,15 @@ namespace EFGetStarted
             }                
         }
 
-        public void CreateChoroba(Choroba choroba)
+        public void GetData()
         {
             using (var db = new BloggingContext())
             {
-                db.Add(choroba);
-                db.SaveChanges();
+                var wykszt = db.Respondent.Select(x => x.Wyksztalcenie).ToList();
             }
         }
 
-        public void CreateStanFizyczny(StanFizyczny stanfizyczny)
-        {
-            using (var db = new BloggingContext())
-            {
-                db.Add(stanfizyczny);
-                db.SaveChanges();
-            }
-        }
+        
         static void Main()
         {
             using (var db = new BloggingContext())
