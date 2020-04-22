@@ -3,7 +3,7 @@
 @using BazaDanych
 @using EFGetStarted
 
-<h1>Zapraszamy do odpowiedzi na pytania</h1>
+<h1>@title</h1>
 
 
 
@@ -727,7 +727,7 @@ else if (page == 15)
 }
 else if(page==20)
 {
-    <h2>Dziękujemy za wypełnienie naszej ankiety!</h2>
+    @*<h2>Dziękujemy za wypełnienie naszej ankiety!</h2>*@
 }
 
 @code {
@@ -736,6 +736,7 @@ else if(page==20)
     String m = "Mężczyzna";
     Boolean grupa;
     Boolean sex;
+    String title = "Ocena gotowości społecznej na instalację 24h systemów monitoringu osób starszych w ich miejscach zamieszkania";
     String x = null;
     int page = 1;
 
@@ -1005,6 +1006,7 @@ else if(page==20)
         else if (page == 15)
         {
             page = 20;
+            title = "Dziękujemy za wypełnienie naszej ankiety!";
             var odczuciaM2 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.wizyjny };
             var odczuciaM3 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.czujnik };
             var odczuciaM4 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.robot };

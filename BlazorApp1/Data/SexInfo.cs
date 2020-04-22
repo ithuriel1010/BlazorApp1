@@ -31,7 +31,7 @@ namespace BlazorApp1.Data
                 }
                 else
                 {
-                    x = "Meżczyzna";
+                    x = "Mężczyzna";
                 }
                 data.Add(new SexData
                 {
