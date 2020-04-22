@@ -101,7 +101,7 @@
         </label>
         <h2></h2>
 
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 }
@@ -162,7 +162,7 @@ else if (page == 2)
         <h2></h2>
 
 
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 }
@@ -240,7 +240,7 @@ else if (page == 3)
         <h2></h2>
 
 
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 }
@@ -332,7 +332,7 @@ else if (page == 4)
         <h2></h2>
 
 
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 }
@@ -392,7 +392,7 @@ else if (page == 5)
         <h2></h2>
 
 
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 }
@@ -466,7 +466,7 @@ else if (page == 6)
         <h2></h2>
 
 
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 }
@@ -511,7 +511,7 @@ else if (page == 12)
         <h2></h2>
 
         <h2></h2>
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 }
@@ -539,7 +539,7 @@ else if (page == 13)
 
 
         <h2></h2>
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 }
@@ -646,7 +646,7 @@ else if (page == 14)
         </label>
 
         <h2></h2>
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 
@@ -721,7 +721,7 @@ else if (page == 15)
         <h2></h2>
 
 
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
 }
@@ -737,6 +737,7 @@ else if(page==20)
     Boolean grupa;
     Boolean sex;
     String title = "Ocena gotowości społecznej na instalację 24h systemów monitoringu osób starszych w ich miejscach zamieszkania";
+    String button = "Przejdź dalej";
     String x = null;
     int page = 1;
 
@@ -939,6 +940,8 @@ else if(page==20)
             respondent.MonitoringOdczucias.Add(odczuciaM1);
 
             page = 6;
+            button = "Zakończ";
+
 
         }
         else if (page == 6)
@@ -984,6 +987,7 @@ else if(page==20)
         else if (page == 14)
         {
             page = 15;
+            button = "Zakończ";
             var odczucia1 = new OdczuciawDomu { Respondent = respondent, Poziom = 4 - @_jeden.bezpieczenstwo };
             var monitoringwiedza = new MonitoringWiedza { Respondent = respondent, Poziom = poprawabezpList.Count };
 
