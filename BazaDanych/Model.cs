@@ -57,13 +57,14 @@ namespace EFGetStarted
         public ICollection<AwariaWiedza> AwariaWiedzas { get; set; }
         public ICollection<MonitoringOdczucia> MonitoringOdczucias { get; set; }
         public ICollection<DoswiadczenieZSeniorem> DoswiadczenieZSeniorems { get; set; }
+        public ICollection<MonitoringWiedza> MonitoringWiedzas { get; set; }
 
 
 
 
         public void Update(bool sex, bool grupa, int wiek, string wyksztalcenie, List<Choroba> choroby, List<StanFizyczny> stanyFizyczne, List<OsobaBliska> osobyBliskie,
             List<OdczuciawDomu> odczuciawDomu, List<TechnologiaWiedza> technologiaWiedza, List<AwariaWiedza> awariaWiedza, List<MonitoringOdczucia> monitoringOdczucia,
-            List<DoswiadczenieZSeniorem> doswiadczenieZSeniorem)
+            List<DoswiadczenieZSeniorem> doswiadczenieZSeniorem, List<MonitoringWiedza> monitoringWiedza)
         {
             Sex = sex;
             Grupa = grupa;
@@ -77,6 +78,7 @@ namespace EFGetStarted
             AwariaWiedzas = awariaWiedza;
             MonitoringOdczucias = monitoringOdczucia;
             DoswiadczenieZSeniorems = doswiadczenieZSeniorem;
+            MonitoringWiedzas = monitoringWiedza;
         }
 
     }

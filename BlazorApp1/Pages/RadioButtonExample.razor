@@ -858,7 +858,8 @@ else if(page==20)
             }
 
             respondent.Update(sex, grupa, _wiek.lata, wyksztalcenie[@_jeden.wyksztalcenie], new List<Choroba>(), new List<StanFizyczny>(), new List<OsobaBliska>(),
-                new List<OdczuciawDomu>(), new List<TechnologiaWiedza>(), new List<AwariaWiedza>(), new List<MonitoringOdczucia>(), new List<DoswiadczenieZSeniorem>());
+                new List<OdczuciawDomu>(), new List<TechnologiaWiedza>(), new List<AwariaWiedza>(), new List<MonitoringOdczucia>(), new List<DoswiadczenieZSeniorem>()
+                ,new List<MonitoringWiedza>());
 
 
             foreach (var choroba1 in chorobyList)
@@ -879,6 +880,7 @@ else if(page==20)
 
             respondent.StanyFizyczne.Add(stanfizyczny);
             respondent.StanyFizyczne.Add(stanfizyczny1);
+            respondent.StanyFizyczne.Add(stanfizyczny2);
             page = 3;
 
         }
@@ -887,6 +889,7 @@ else if(page==20)
             if (_jeden.mieszkanieZaznacz != 0)
             {
                 var osobaBliska = new OsobaBliska { Respondent = respondent, Nazwa = mieszkanie[@_jeden.mieszkanieZaznacz] };
+                respondent.OsobyBliskie.Add(osobaBliska);
             }
 
             foreach (var osoba1 in osobyBliskieList)
@@ -907,6 +910,7 @@ else if(page==20)
         {
 
             var technologia = new TechnologiaWiedza { Respondent = respondent, Poziom = poprawabezpList.Count };
+            var monitoringwiedza = new MonitoringWiedza { Respondent = respondent, Poziom = poprawabezpList.Count };
             var technologia1 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.technologia };
             var technologia2 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.internet };
             var technologia3 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.internet2 };
@@ -917,6 +921,7 @@ else if(page==20)
             respondent.TechnologiaWiedzas.Add(technologia2);
             respondent.TechnologiaWiedzas.Add(technologia3);
             respondent.TechnologiaWiedzas.Add(technologia4);
+            respondent.MonitoringWiedzas.Add(monitoringwiedza);
 
             page = 5;
 
@@ -979,6 +984,8 @@ else if(page==20)
         {
             page = 15;
             var odczucia1 = new OdczuciawDomu { Respondent = respondent, Poziom = 4 - @_jeden.bezpieczenstwo };
+            var monitoringwiedza = new MonitoringWiedza { Respondent = respondent, Poziom = poprawabezpList.Count };
+
             var technologia = new TechnologiaWiedza { Respondent = respondent, Poziom = poprawabezpList.Count };
             var technologia1 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.technologia };
             var technologia2 = new TechnologiaWiedza { Respondent = respondent, Poziom = 4 - @_jeden.internet };
@@ -990,6 +997,8 @@ else if(page==20)
             respondent.TechnologiaWiedzas.Add(technologia2);
             respondent.TechnologiaWiedzas.Add(technologia3);
             respondent.TechnologiaWiedzas.Add(technologia4);
+            respondent.MonitoringWiedzas.Add(monitoringwiedza);
+
             respondent.OdczuciawDomus.Add(odczucia1);
 
         }
