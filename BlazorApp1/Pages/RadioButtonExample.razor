@@ -9,16 +9,16 @@
 
 @if (page == 1)
 {
-    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <link rel="stylesheet" href="beautiful-checkbox.css">
-        @*<img src="/Images/Dragon3.png" asp-append-version="true" width="300px" />*@
-
+<EditForm Model="_model"  OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <link rel="stylesheet" href="beautiful-checkbox.css">
+    @*<img src="/Images/Dragon3.png" asp-append-version="true" width="300px" />*@
+    @*<label>@ErrorMessage</label>*@
     <label>
         1. Płeć:
         @*<InputRadio name="sex" SelectedValue="1" @bind-Value="_model.Sex" />
-        @k*@
+            @k*@
         <div class="pretty p-icon p-round">
             <InputRadio SelectedValue="1" @bind-Value="_model.Sex" />
             <div class="state p-primary">
@@ -29,7 +29,7 @@
     </label>
     <label>
         @*<InputRadio name="sex" SelectedValue="2" @bind-Value="_model.Sex" />
-        @m*@
+            @m*@
         <div class="pretty p-icon p-round">
             <InputRadio SelectedValue="2" @bind-Value="_model.Sex" />
             <div class="state p-primary">
@@ -39,71 +39,70 @@
         </div>
     </label>
 
-        <h2></h2>
-        <label>
-            2. Wiek:
-            <InputNumber @bind-Value="_wiek.lata" />
-        </label>
+    <h2></h2>
+    <label>
+        2. Wiek:
+        <InputNumber Class="form-control" @onchange="@SetOkDisabledStatus" @onclick ="@SetOkDisabledStatus" @bind-Value="_wiek.lata" />
+    </label>
 
-        <h2></h2>
+    <h2></h2>
 
-        <label>
-            3. Wykształcenie:<h2></h2>
-            @for (int i = 0; i < wyksztalcenie.Length; i++)
-            {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.wyksztalcenie" />
-            @wyksztalcenie[i] <h2></h2>*@
-        <div class="pretty p-icon p-round">
-            <InputRadio SelectedValue=i @bind-Value="_jeden.wyksztalcenie" />
-            <div class="state p-primary">
-                <i class="icon mdi mdi-check"></i>
-                <label>@wyksztalcenie[i]</label>
-            </div>
-        </div>
-            }
-        </label>
-
-        <h2></h2>
-
-        <label>
-            4. Jak ocenia Pani/Pan swój stan zdrowia?<h2></h2>
-            @for (int i = 0; i < zdrowie.Length; i++)
-            {
-                @*<InputRadio SelectedValue=i @bind="_jeden.zdrowie" />
-            @zdrowie[i] <h2></h2>*@
-        <div class="pretty p-icon p-round">
-            @*<input type="radio" name="icon_solid" @bind-value="_jeden.zdrowie" SelectedValue=i />*@
-            <InputRadio SelectedValue=i @bind-Value="_jeden.zdrowie" />
-            <div class="state p-primary">
-                <i class="icon mdi mdi-check"></i>
-                <label>@zdrowie[i]</label>
-            </div>
-        </div>
-
-            }
-        </label>
-
-        <h2></h2>
-
-        <label>
-            5. Z jakimi chorobami się Pani/Pan zmaga?:<h2></h2>
-            @for (int i = 0; i < choroby.Length; i++)
-            {
-                var m = choroby[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
-                <div class="pretty p-default p-curve">
-                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, chorobyList); }" />
-                    <div class="state p-primary-o">
-                        <label>@m</label>
-                    </div>
+    <label>
+        3. Wykształcenie:<h2></h2>
+        @for (int i = 0; i < wyksztalcenie.Length; i++)
+        {
+            @*<InputRadio SelectedValue=i @bind-Value="_jeden.wyksztalcenie" />
+                @wyksztalcenie[i] <h2></h2>*@
+            <div class="pretty p-icon p-round">
+                <InputRadio SelectedValue=i @bind-Value="_jeden.wyksztalcenie" />
+                <div class="state p-primary">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>@wyksztalcenie[i]</label>
                 </div>
-            }
-        </label>
-        <h2></h2>
+            </div>
+        }
+    </label>
 
-        <button type="submit" class="btn btn-outline-primary">@button</button>
+    <h2></h2>
 
-    </EditForm>
+    <label>
+        4. Jak ocenia Pani/Pan swój stan zdrowia?<h2></h2>
+        @for (int i = 0; i < zdrowie.Length; i++)
+        {
+            @*<InputRadio SelectedValue=i @bind="_jeden.zdrowie" />
+                @zdrowie[i] <h2></h2>*@
+            <div class="pretty p-icon p-round">
+                @*<input type="radio" name="icon_solid" @bind-value="_jeden.zdrowie" SelectedValue=i />*@
+                <InputRadio SelectedValue=i @bind-Value="_jeden.zdrowie" />
+                <div class="state p-primary">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>@zdrowie[i]</label>
+                </div>
+            </div>
+
+        }
+    </label>
+
+    <h2></h2>
+
+    <label>
+        5. Z jakimi chorobami się Pani/Pan zmaga?:<h2></h2>
+        @for (int i = 0; i < choroby.Length; i++)
+        {
+            var m = choroby[i];
+            @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+            <div class="pretty p-default p-curve">
+                <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, chorobyList); }" />
+                <div class="state p-primary-o">
+                    <label>@m</label>
+                </div>
+            </div>
+        }
+    </label>
+    <h2></h2>
+    <button type="submit" disabled="@OkayDisabled" class="btn btn-outline-primary">@button</button>
+
+</EditForm>
 }
 else if (page == 2)
 {
@@ -740,6 +739,8 @@ else if(page==20)
     String button = "Przejdź dalej";
     String x = null;
     int page = 1;
+    String ErrorMessage = "";
+    String StatusClass = "";
 
     private Model _model = new Model();
     private Wiek _wiek = new Wiek();
@@ -799,9 +800,19 @@ else if(page==20)
     public List<string> poprawabezpList { get; set; } = new List<string>();
     public List<string> urzadzeniaList { get; set; } = new List<string>();
     public List<string> zabezpieczeniaList { get; set; } = new List<string>();
+    protected string OkayDisabled { get; set; } = "disabled";
 
-
-
+    private void SetOkDisabledStatus()
+    {
+        if(@_wiek.lata<=120 && _wiek.lata>=1)
+        {
+            OkayDisabled = null;
+        }
+        else
+        {
+            OkayDisabled = "disabled";
+        }
+    }
 
     void CheckboxClicked(string zaznaczonycheck, object checkedValue, List<string> lista)
     {
@@ -821,34 +832,41 @@ else if(page==20)
         }
     }
 
-    private void HandleValidSubmit()
+    protected void HandleInvalidSubmit(EditContext editContext)
+    {
+        StatusClass = "alert-danger";
+
+        ErrorMessage = "Błąd!";
+    }
+
+    private void HandleValidSubmit(EditContext editContext)
     {
         EFGetStarted.Program program = new EFGetStarted.Program();
 
 
         if (page == 1)
         {
-            if (_wiek.lata >= 50 && @_model.Sex == 1)
+            if (@_wiek.lata >= 50 && @_model.Sex == 1)
             {
                 page = 2;
                 grupa = true;
                 sex = true;
 
             }
-            else if (_wiek.lata <= 50 && @_model.Sex == 1)
+            else if (@_wiek.lata <= 50 && @_model.Sex == 1)
             {
                 page = 12;
                 grupa = false;
                 sex = true;
 
             }
-            else if (_wiek.lata <= 50 && @_model.Sex == 2)
+            else if (@_wiek.lata <= 50 && @_model.Sex == 2)
             {
                 page = 12;
                 grupa = false;
                 sex = false;
             }
-            else if (_wiek.lata >= 50 && @_model.Sex == 2)
+            else if (@_wiek.lata >= 50 && @_model.Sex == 2)
             {
                 page = 2;
                 grupa = true;
@@ -856,7 +874,7 @@ else if(page==20)
             }
             else
             {
-                x = "AAA";
+
             }
 
             respondent.Update(sex, grupa, _wiek.lata, wyksztalcenie[@_jeden.wyksztalcenie], new List<Choroba>(), new List<StanFizyczny>(), new List<OsobaBliska>(),
@@ -1032,7 +1050,7 @@ else if(page==20)
 
     public class Wiek
     {
-        [Range(1, 120, ErrorMessage = "Wpisz poprawny wiek")]
+        [Required, Range(1, 120, ErrorMessage = "Wpisz poprawny wiek")]
         public int lata { get; set; }
     }
 

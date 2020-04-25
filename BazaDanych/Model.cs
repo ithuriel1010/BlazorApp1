@@ -5,8 +5,6 @@ namespace EFGetStarted
 {
     public class BloggingContext : DbContext
     {
-        public DbSet<Blog> Blogs { get; set; }
-        public DbSet<Post> Posts { get; set; }
         public DbSet<Respondent> Respondent { get; set; }
         public DbSet<Choroba> Choroba { get; set; }
         public DbSet<OsobaBliska> OsobaBliska { get; set; }
@@ -22,26 +20,8 @@ namespace EFGetStarted
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseNpgsql("Host = 192.168.1.197; Database=ankiety;Username=ankiety;Password=AnkietY");
-    }
-
-    public class Blog
-    {
-        public int BlogId { get; set; }
-        public string Url { get; set; }
-
-        public List<Post> Posts { get; } = new List<Post>();
-    }
-
-    public class Post
-    {
-        public int PostId { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-
-        public int BlogId { get; set; }
-        public Blog Blog { get; set; }
-    }
-
+    }   
+    
     public class Respondent
     {
         public int RespondentId { get; set; }
