@@ -42,7 +42,7 @@
     <h2></h2>
     <label>
         2. Wiek:
-        <InputNumber Class="form-control" @onchange="@SetOkDisabledStatus" @onclick ="@SetOkDisabledStatus" @bind-Value="_wiek.lata" />
+        <InputNumber Class="form-control" @onchange="@SetOkDisabledStatus" @ondeactivate="@SetOkDisabledStatus" @onblur="@SetOkDisabledStatus" @onclick ="@SetOkDisabledStatus" @bind-Value="_wiek.lata" />
     </label>
 
     <h2></h2>
