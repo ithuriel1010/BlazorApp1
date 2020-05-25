@@ -1,7 +1,9 @@
 ﻿@page "/Ankieta - Monitoring 24h"
 @using System.ComponentModel.DataAnnotations
 @using BazaDanych
+@using BlazorApp1.Data
 @using EFGetStarted
+
 
 <h1>@title</h1>
 
@@ -9,100 +11,96 @@
 
 @if (page == 1)
 {
-<EditForm Model="_model"  OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <link rel="stylesheet" href="beautiful-checkbox.css">
-    @*<img src="/Images/Dragon3.png" asp-append-version="true" width="300px" />*@
-    @*<label>@ErrorMessage</label>*@
-    <label>
-        1. Płeć:
-        @*<InputRadio name="sex" SelectedValue="1" @bind-Value="_model.Sex" />
-            @k*@
-        <div class="pretty p-icon p-round">
-            <InputRadio SelectedValue="1" @bind-Value="_model.Sex" />
-            <div class="state p-primary">
-                <i class="icon mdi mdi-check"></i>
-                <label>@k</label>
-            </div>
-        </div>
-    </label>
-    <label>
-        @*<InputRadio name="sex" SelectedValue="2" @bind-Value="_model.Sex" />
-            @m*@
-        <div class="pretty p-icon p-round">
-            <InputRadio SelectedValue="2" @bind-Value="_model.Sex" />
-            <div class="state p-primary">
-                <i class="icon mdi mdi-check"></i>
-                <label>@m</label>
-            </div>
-        </div>
-    </label>
-
-    <h2></h2>
-    <label>
-        2. Wiek:
-        <InputNumber Class="form-control" @onchange="@SetOkDisabledStatus" @ondeactivate="@SetOkDisabledStatus" @onblur="@SetOkDisabledStatus" @onclick ="@SetOkDisabledStatus" @bind-Value="_wiek.lata" />
-    </label>
-
-    <h2></h2>
-
-    <label>
-        3. Wykształcenie:<h2></h2>
-        @for (int i = 0; i < wyksztalcenie.Length; i++)
-        {
-            @*<InputRadio SelectedValue=i @bind-Value="_jeden.wyksztalcenie" />
-                @wyksztalcenie[i] <h2></h2>*@
+    <EditForm Model="_model" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <link rel="stylesheet" href="beautiful-checkbox.css">
+        @*<img src="/Images/Dragon3.png" asp-append-version="true" width="300px" />*@
+        @*<label>@ErrorMessage</label>*@
+        <label>
+            1. Płeć:
+            @*<InputRadio name="sex" SelectedValue="1" @bind-Value="_model.Sex" />
+                @k*@
             <div class="pretty p-icon p-round">
-                <InputRadio SelectedValue=i @bind-Value="_jeden.wyksztalcenie" />
+                <InputRadio SelectedValue="1" @bind-Value="_model.Sex" />
                 <div class="state p-primary">
                     <i class="icon mdi mdi-check"></i>
-                    <label>@wyksztalcenie[i]</label>
+                    <label>@k</label>
                 </div>
             </div>
-        }
-    </label>
-
-    <h2></h2>
-
-    <label>
-        4. Jak ocenia Pani/Pan swój stan zdrowia?<h2></h2>
-        @for (int i = 0; i < zdrowie.Length; i++)
-        {
-            @*<InputRadio SelectedValue=i @bind="_jeden.zdrowie" />
-                @zdrowie[i] <h2></h2>*@
+        </label>
+        <label>
+            @*<InputRadio name="sex" SelectedValue="2" @bind-Value="_model.Sex" />
+                @m*@
             <div class="pretty p-icon p-round">
-                @*<input type="radio" name="icon_solid" @bind-value="_jeden.zdrowie" SelectedValue=i />*@
-                <InputRadio SelectedValue=i @bind-Value="_jeden.zdrowie" />
+                <InputRadio SelectedValue="2" @bind-Value="_model.Sex" />
                 <div class="state p-primary">
                     <i class="icon mdi mdi-check"></i>
-                    <label>@zdrowie[i]</label>
-                </div>
-            </div>
-
-        }
-    </label>
-
-    <h2></h2>
-
-    <label>
-        5. Z jakimi chorobami się Pani/Pan zmaga?:<h2></h2>
-        @for (int i = 0; i < choroby.Length; i++)
-        {
-            var m = choroby[i];
-            @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
-            <div class="pretty p-default p-curve">
-                <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, chorobyList); }" />
-                <div class="state p-primary-o">
                     <label>@m</label>
                 </div>
             </div>
-        }
-    </label>
-    <h2></h2>
-    <button type="submit" disabled="@OkayDisabled" class="btn btn-outline-primary">@button</button>
+        </label>
 
-</EditForm>
+        <h2></h2>
+        <label>
+            2. Wiek:
+            <InputNumber Class="form-control" @onchange="@SetOkDisabledStatus" @ondeactivate="@SetOkDisabledStatus" @onblur="@SetOkDisabledStatus" @bind-Value="_wiek.lata" />
+        </label>
+
+        <h2></h2>
+
+        <label>
+            3. Wykształcenie:<h2></h2>
+            @for (int i = 0; i < wyksztalcenie.Length; i++)
+            {
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.wyksztalcenie" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@wyksztalcenie[i]</label>
+                    </div>
+                </div>
+            }
+        </label>
+
+        <h2></h2>
+
+        <label>
+            4. Jak ocenia Pani/Pan swój stan zdrowia?<h2></h2>
+            @for (int i = 0; i < zdrowie.Length; i++)
+            {
+                <div class="pretty p-icon p-round">
+                    <InputRadio SelectedValue=i @bind-Value="_jeden.zdrowie" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>@zdrowie[i]</label>
+                    </div>
+                </div>
+
+            }
+        </label>
+
+        <h2></h2>
+
+        <label>
+            5. Z jakimi chorobami się Pani/Pan zmaga?:<h2></h2>
+            @for (int i = 0; i < choroby.Length; i++)
+            {
+                var m = choroby[i];
+                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
+                <div class="pretty p-default p-curve">
+                    <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, chorobyList); }" />
+                    <div class="state p-primary-o">
+                        <label>@m</label>
+                    </div>
+                </div>
+            }
+        </label>
+        <h2></h2>
+
+        <button type="submit" disabled="@OkayDisabled" class="btn btn-outline-primary">@button</button>
+
+    </EditForm>
 }
 else if (page == 2)
 {
@@ -147,7 +145,7 @@ else if (page == 2)
             @for (int i = 0; i < pytanie.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.pomoc" />
-                @pytanie[i] <h2></h2>*@
+                    @pytanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.pomoc" />
                     <div class="state p-primary">
@@ -176,7 +174,7 @@ else if (page == 3)
             @for (int i = 0; i < mieszkanie.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.mieszkanieZaznacz" />
-            @mieszkanie[i] <h2></h2>*@
+                    @mieszkanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.mieszkanieZaznacz" />
                     <div class="state p-primary">
@@ -208,7 +206,7 @@ else if (page == 3)
             @for (int i = 0; i < pytanie.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.samotnosc" />
-            @pytanie[i] <h2></h2>*@
+                    @pytanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.samotnosc" />
                     <div class="state p-primary">
@@ -225,7 +223,7 @@ else if (page == 3)
             @for (int i = 0; i < pytanie.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
-            @pytanie[i] <h2></h2>*@
+                    @pytanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
                     <div class="state p-primary">
@@ -269,7 +267,7 @@ else if (page == 4)
             @for (int i = 0; i < pytaniedobrze.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
-            @pytaniedobrze[i] <h2></h2>*@
+                    @pytaniedobrze[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
                     <div class="state p-primary">
@@ -300,7 +298,7 @@ else if (page == 4)
             @for (int i = 0; i < czestosc.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
-            @czestosc[i] <h2></h2>*@
+                    @czestosc[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
                     <div class="state p-primary">
@@ -317,7 +315,7 @@ else if (page == 4)
             @for (int i = 0; i < czestoscGodziny.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
-            @czestoscGodziny[i] <h2></h2>*@
+                    @czestoscGodziny[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
                     <div class="state p-primary">
@@ -361,7 +359,7 @@ else if (page == 5)
             @for (int i = 0; i < monitoring.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.monitoring" />
-            @monitoring[i] <h2></h2>*@
+                    @monitoring[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.monitoring" />
                     <div class="state p-primary">
@@ -377,7 +375,7 @@ else if (page == 5)
             @for (int i = 0; i < monitoringObecnosc.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.monitoring1" />
-            @monitoringObecnosc[i] <h2></h2>*@
+                    @monitoringObecnosc[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.monitoring1" />
                     <div class="state p-primary">
@@ -411,7 +409,7 @@ else if (page == 6)
             @for (int i = 0; i < zgoda.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
-            @zgoda[i] <h2></h2>*@
+                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
                     <div class="state p-primary">
@@ -432,7 +430,7 @@ else if (page == 6)
             @for (int i = 0; i < zgoda.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
-            @zgoda[i] <h2></h2>*@
+                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
                     <div class="state p-primary">
@@ -452,7 +450,7 @@ else if (page == 6)
             @for (int i = 0; i < zgoda.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
-            @zgoda[i] <h2></h2>*@
+                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
                     <div class="state p-primary">
@@ -480,7 +478,7 @@ else if (page == 12)
             @for (int i = 0; i < taknie.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.choraosoba" />
-            @taknie[i] <h2></h2>*@
+                    @taknie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.choraosoba" />
                     <div class="state p-primary">
@@ -496,7 +494,7 @@ else if (page == 12)
             @for (int i = 0; i < taknie.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.mieszkaniezseniorem" />
-            @taknie[i] <h2></h2>*@
+                    @taknie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.mieszkaniezseniorem" />
                     <div class="state p-primary">
@@ -525,7 +523,7 @@ else if (page == 13)
             @for (int i = 0; i < opieka.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.opieka" />
-            @opieka[i] <h2></h2>*@
+                    @opieka[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.opieka" />
                     <div class="state p-primary">
@@ -553,7 +551,7 @@ else if (page == 14)
             @for (int i = 0; i < pytanie.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
-            @pytanie[i] <h2></h2>*@
+                    @pytanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
                     <div class="state p-primary">
@@ -585,7 +583,7 @@ else if (page == 14)
             @for (int i = 0; i < pytaniedobrze.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
-            @pytaniedobrze[i] <h2></h2>*@
+                    @pytaniedobrze[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
                     <div class="state p-primary">
@@ -616,7 +614,7 @@ else if (page == 14)
             @for (int i = 0; i < czestosc.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
-            @czestosc[i] <h2></h2>*@
+                    @czestosc[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
                     <div class="state p-primary">
@@ -633,7 +631,7 @@ else if (page == 14)
             @for (int i = 0; i < czestoscGodziny.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
-            @czestoscGodziny[i] <h2></h2>*@
+                    @czestoscGodziny[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
                     <div class="state p-primary">
@@ -666,7 +664,7 @@ else if (page == 15)
             @for (int i = 0; i < zgoda.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
-            @zgoda[i] <h2></h2>*@
+                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
                     <div class="state p-primary">
@@ -687,7 +685,7 @@ else if (page == 15)
             @for (int i = 0; i < zgoda.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
-            @zgoda[i] <h2></h2>*@
+                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
                     <div class="state p-primary">
@@ -707,7 +705,7 @@ else if (page == 15)
             @for (int i = 0; i < zgoda.Length; i++)
             {
                 @*<InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
-            @zgoda[i] <h2></h2>*@
+                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
                     <div class="state p-primary">
@@ -724,9 +722,18 @@ else if (page == 15)
 
     </EditForm>
 }
-else if(page==20)
+else if (page == 20)
 {
-    @*<h2>Dziękujemy za wypełnienie naszej ankiety!</h2>*@
+
+    <p>Twój wiek to @respondent.Wiek, a wiek średni respondentów to @avgAge</p>
+    <p>Twój poziom stanu fizycznego to @resFiz, a średni stan fizyczny respondentów jest na poziomie @avgFiz</p>
+    <p>Twój poziom wiedzy o technologii to @resWiedzaTech, a średnia wiedza na ten temat respondentów jest na poziomie @avgWiedzaTech</p>
+    <p>Twój poziom wiedzy o monitoringu to @resWiedzaMon, a średnia wiedza na ten temat respondentów jest na poziomie @avgWiedzaMon</p>
+    <p>Twój poziom odczucia na temat monitoringu to @resOdczuciaMon, a średnie odczucia respondentów są na poziomie @avgOdczuciaMon</p>
+
+
+
+
 }
 
 @code {
@@ -744,7 +751,7 @@ else if(page==20)
 
     private Model _model = new Model();
     private Wiek _wiek = new Wiek();
-    private Strona1 _jeden = new Strona1();
+    private Data.Walidacje _jeden = new Data.Walidacje();
     Respondent respondent = new Respondent();
 
     String[] wyksztalcenie = new String[] { "Podstawowe", "Gimnazjalne", "Zasadnicze zawodowe", "Średnie", "Wyższe" };
@@ -802,9 +809,21 @@ else if(page==20)
     public List<string> zabezpieczeniaList { get; set; } = new List<string>();
     protected string OkayDisabled { get; set; } = "disabled";
 
+    public double avgAge;
+    public double avgFiz;
+    public double avgWiedzaMon;
+    public double avgWiedzaTech;
+    public double avgOdczuciaMon;
+    public double resFiz;
+    public double resWiedzaMon;
+    public double resWiedzaTech;
+    public double resOdczuciaMon;
+
+
+
     private void SetOkDisabledStatus()
     {
-        if(@_wiek.lata<=120 && _wiek.lata>=1)
+        if (@_wiek.lata <= 120 && _wiek.lata >= 1)
         {
             OkayDisabled = null;
         }
@@ -842,7 +861,7 @@ else if(page==20)
     private void HandleValidSubmit(EditContext editContext)
     {
         EFGetStarted.Program program = new EFGetStarted.Program();
-
+        BlazorApp1.Data.GetAllData getData = new BlazorApp1.Data.GetAllData(respondent);
 
         if (page == 1)
         {
@@ -879,7 +898,7 @@ else if(page==20)
 
             respondent.Update(sex, grupa, _wiek.lata, wyksztalcenie[@_jeden.wyksztalcenie], new List<Choroba>(), new List<StanFizyczny>(), new List<OsobaBliska>(),
                 new List<OdczuciawDomu>(), new List<TechnologiaWiedza>(), new List<AwariaWiedza>(), new List<MonitoringOdczucia>(), new List<DoswiadczenieZSeniorem>()
-                ,new List<MonitoringWiedza>());
+                , new List<MonitoringWiedza>());
 
 
             foreach (var choroba1 in chorobyList)
@@ -1039,6 +1058,19 @@ else if(page==20)
             respondent.MonitoringOdczucias.Add(odczuciaM4);
             program.CreateRespondent(respondent);
 
+            avgAge = Math.Round(getData.GetAverageAge(respondent), 2);
+            avgFiz = Math.Round(getData.GetAverageFiz(respondent), 2);
+            avgOdczuciaMon = Math.Round(getData.GetAverageOdczuciaMon(respondent), 2);
+            avgWiedzaMon = Math.Round(getData.GetAverageWiedzaMon(respondent), 2);
+            avgWiedzaTech = Math.Round(getData.GetAverageWiedzaTech(respondent), 2);
+            resFiz = Math.Round(getData.GetResFiz(respondent), 2);
+            resOdczuciaMon = Math.Round(getData.GetResOdczuciaMon(respondent), 2);
+            resWiedzaMon = Math.Round(getData.GetResWiedzaMon(respondent), 2);
+            resWiedzaTech = Math.Round(getData.GetResWiedzaTech(respondent), 2);
+
+        }
+        else if (page == 20)
+        {
         }
 
     }
@@ -1053,63 +1085,6 @@ else if(page==20)
     {
         [Required, Range(1, 120, ErrorMessage = "Wpisz poprawny wiek")]
         public int lata { get; set; }
-    }
-
-    public class Strona1
-    {
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int wyksztalcenie { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int zdrowie { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int pomoc { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int samotnosc { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int bezpieczenstwo { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int technologia { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int internet { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int internet2 { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int monitoring { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int monitoring1 { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int wizyjny { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int czujnik { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int robot { get; set; }
-
-        [Range(0, 1, ErrorMessage = "Wybierz")]
-        public int choraosoba { get; set; }
-
-        [Range(0, 1, ErrorMessage = "Wybierz")]
-        public int mieszkaniezseniorem { get; set; }
-
-        [Range(0, 4, ErrorMessage = "Wybierz")]
-        public int opieka { get; set; }
-
-        [Range(0, 5, ErrorMessage = "Wybierz")]
-        public int mieszkanieZaznacz { get; set; }
-
-        [Required]
-        public bool check { get; set; }
     }
 
 }
