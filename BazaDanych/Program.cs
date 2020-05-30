@@ -13,16 +13,7 @@ namespace EFGetStarted
                 db.SaveChanges();
             }                
         }
-
-        public void GetData()
-        {
-            using (var db = new BloggingContext())
-            {
-                var wykszt = db.Respondent.Select(x => x.Wyksztalcenie).ToList();
-            }
-        }
-
-        
+                       
         static void Main()
         {
             

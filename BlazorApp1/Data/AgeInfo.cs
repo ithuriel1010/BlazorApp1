@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorApp1.Data
 {
-    public class AgeInfo
+    public class AgeInfo    //Pobranie informacji o wieku w celu stworzenia wykresu
     {
         public List<AgeData> GetAgeData()
         {
@@ -16,11 +16,11 @@ namespace BlazorApp1.Data
 
             using (var db = new BloggingContext())
             {
-                group = db.Respondent.Select(x => x.Grupa).ToList();
+                group = db.Respondent.Select(x => x.Grupa).ToList();    //Zapisujemy wszystkich respondentów z bazy do listy
             }
 
-            var all = group.Count();
-            var distinct = group.Distinct();
+            var all = group.Count();            //Wybieramy wartości danej "Grupa" dla respondentów
+            var distinct = group.Distinct();    //Wybieramy wszystkie osoby z różnymi wartościami
 
             foreach (var r in distinct)
             {
@@ -35,8 +35,8 @@ namespace BlazorApp1.Data
                 }
                 data.Add(new AgeData
                 {
-                    Name = x,
-                    Value = group.Count(x => x == r) * 100 / all
+                    Name = x,               //Wybieramy nazwę danego kawałka wykresu
+                    Value = group.Count(x => x == r) * 100 / all    //Liczymy procent osób w danej grupie
                 });
             }
             return data;

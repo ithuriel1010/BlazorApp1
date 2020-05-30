@@ -4,7 +4,7 @@
         am4core.useTheme(am4themes_animated);
 
         var chart = am4core.create("chartdiv", am4charts.PieChart3D);
-        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+        chart.hiddenState.properties.opacity = 0; // Tworzy początkowy efekt pojawiania się wykresu
 
         chart.legend = new am4charts.Legend();
 
@@ -14,5 +14,5 @@
         series.dataFields.value = "value";
         series.dataFields.category = "name";
 
-    }); // end am4core.ready()
+    });
 }

@@ -7,7 +7,9 @@
 
 <h1>@title</h1>
 
-
+@*Tworzenie ankiety - wszystkich radiobuttonów/checkboxów oraz pytania o wiek
+    Każde pytanie jest możliwe do stworzenia za pomocą tylko jednaj lini - tworzyło to jednak szare i nudne radiobuttony/checkboxy, 
+    dlatego zostały dodane dodatkowe znaczniki, wydłużają one kod ale sprawiają że ankieta ma bardziej estetyczny wygląd*@
 
 @if (page == 1)
 {
@@ -15,12 +17,13 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
         <link rel="stylesheet" href="beautiful-checkbox.css">
-        @*<img src="/Images/Dragon3.png" asp-append-version="true" width="300px" />*@
-        @*<label>@ErrorMessage</label>*@
+       
+        @*Pytanie o płeć jest stworzone inaczej niż wszystkie inne - zamiast wyświetlania wszystkich elementów tablicy, tutaj płcie wpisane są ręcznie. Powodem dlaczego zostało to tak zrobone
+            jest aby pokazać walidacje radiobuttonów - jeśli są one stworzone w pętli, pierwszy wybór jest zawsze automatycznie zaznaczany, nie ma więć możliwości niezaznaczenia odpowiedzi 
+            na któreś pytanie. W przypadku tego pytania nie jest zaznaczona żadna odpowiedź i respondent nie przejdzie dalej bez zaznaczenia odpowiedzi na to pytanie*@
+
         <label>
             1. Płeć:
-            @*<InputRadio name="sex" SelectedValue="1" @bind-Value="_model.Sex" />
-                @k*@
             <div class="pretty p-icon p-round">
                 <InputRadio SelectedValue="1" @bind-Value="_model.Sex" />
                 <div class="state p-primary">
@@ -30,8 +33,6 @@
             </div>
         </label>
         <label>
-            @*<InputRadio name="sex" SelectedValue="2" @bind-Value="_model.Sex" />
-                @m*@
             <div class="pretty p-icon p-round">
                 <InputRadio SelectedValue="2" @bind-Value="_model.Sex" />
                 <div class="state p-primary">
@@ -44,6 +45,7 @@
         <h2></h2>
         <label>
             2. Wiek:
+            @*Wsztystkie atrybuty onchange, on blur itp. służą do walidacji - kiedy "wyjdzie się" z pola wpisywania wieku i wiek jest poprawny przycisk "Następna strona" staje się aktywny*@
             <InputNumber Class="form-control" @onchange="@SetOkDisabledStatus" @ondeactivate="@SetOkDisabledStatus" @onblur="@SetOkDisabledStatus" @bind-Value="_wiek.lata" />
         </label>
 
@@ -87,7 +89,6 @@
             @for (int i = 0; i < choroby.Length; i++)
             {
                 var m = choroby[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
                 <div class="pretty p-default p-curve">
                     <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, chorobyList); }" />
                     <div class="state p-primary-o">
@@ -98,6 +99,7 @@
         </label>
         <h2></h2>
 
+        @*Przycisk jest zablokowany dopóki funkcja OkayDisabled nie jest wywołana z prawidłowymi argumentami - funkcja jest wywoływana po wpisaniu wieku*@
         <button type="submit" disabled="@OkayDisabled" class="btn btn-outline-primary">@button</button>
 
     </EditForm>
@@ -113,7 +115,6 @@ else if (page == 2)
             @for (int i = 0; i < dolegliwosci.Length; i++)
             {
                 var m = dolegliwosci[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
                 <div class="pretty p-default p-curve">
                     <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, dolegliwosciZWiekiemList); }" />
                     <div class="state p-primary-o">
@@ -128,7 +129,6 @@ else if (page == 2)
             @for (int i = 0; i < czynnosci.Length; i++)
             {
                 var m = czynnosci[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
                 <div class="pretty p-default p-curve">
                     <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, trudneCzynnosciList); }" />
                     <div class="state p-primary-o">
@@ -144,8 +144,6 @@ else if (page == 2)
             8. Czy potrzebuje Pani/Pan pomocy w wykonywaniu wcześniej zaznaczonych czynności?<h2></h2>
             @for (int i = 0; i < pytanie.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.pomoc" />
-                    @pytanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.pomoc" />
                     <div class="state p-primary">
@@ -173,8 +171,6 @@ else if (page == 3)
             9. Z kim Pani/Pan mieszka?:<h2></h2>
             @for (int i = 0; i < mieszkanie.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.mieszkanieZaznacz" />
-                    @mieszkanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.mieszkanieZaznacz" />
                     <div class="state p-primary">
@@ -191,7 +187,6 @@ else if (page == 3)
             @for (int i = 0; i < osobyBliskie.Length; i++)
             {
                 var m = osobyBliskie[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
                 <div class="pretty p-default p-curve">
                     <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, osobyBliskieList); }" />
                     <div class="state p-primary-o">
@@ -205,8 +200,6 @@ else if (page == 3)
             11. Czy czuje się Pani/Pan samotna/y?<h2></h2>
             @for (int i = 0; i < pytanie.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.samotnosc" />
-                    @pytanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.samotnosc" />
                     <div class="state p-primary">
@@ -222,8 +215,6 @@ else if (page == 3)
             12. Czy czuje się Pani/Pan w swoim domu bezpiecznie?<h2></h2>
             @for (int i = 0; i < pytanie.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
-                    @pytanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
                     <div class="state p-primary">
@@ -252,7 +243,6 @@ else if (page == 4)
             @for (int i = 0; i < poprawabezp.Length; i++)
             {
                 var m = poprawabezp[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
                 <div class="pretty p-default p-curve">
                     <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, poprawabezpList); }" />
                     <div class="state p-primary-o">
@@ -266,8 +256,6 @@ else if (page == 4)
             14. Jak ocenia Pani/Pan swoje oswojenie z nowoczesną technologią? (obsługa smartfona, komputera, telewizora itp.)<h2></h2>
             @for (int i = 0; i < pytaniedobrze.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
-                    @pytaniedobrze[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
                     <div class="state p-primary">
@@ -283,7 +271,6 @@ else if (page == 4)
             @for (int i = 0; i < urzadzenia.Length; i++)
             {
                 var m = urzadzenia[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
                 <div class="pretty p-default p-curve">
                     <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, urzadzeniaList); }" />
                     <div class="state p-primary-o">
@@ -297,8 +284,6 @@ else if (page == 4)
             16. Czy korzysta Pani/Pan z internetu?<h2></h2>
             @for (int i = 0; i < czestosc.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
-                    @czestosc[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
                     <div class="state p-primary">
@@ -314,8 +299,6 @@ else if (page == 4)
             17. Ile czasu dziennie spędza Pani/Pan przed komputerem/smartfonem?<h2></h2>
             @for (int i = 0; i < czestoscGodziny.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
-                    @czestoscGodziny[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
                     <div class="state p-primary">
@@ -344,7 +327,6 @@ else if (page == 5)
             @for (int i = 0; i < zabezpieczenia.Length; i++)
             {
                 var m = zabezpieczenia[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
                 <div class="pretty p-default p-curve">
                     <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, zabezpieczeniaList); }" />
                     <div class="state p-primary-o">
@@ -358,8 +340,6 @@ else if (page == 5)
             19. Czym jest dla Pani/Pana monitoring?<h2></h2>
             @for (int i = 0; i < monitoring.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.monitoring" />
-                    @monitoring[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.monitoring" />
                     <div class="state p-primary">
@@ -374,8 +354,6 @@ else if (page == 5)
             20. Czy ma Pani/Pan monitoring zainstalowany w miejscu zamieszkania?<h2></h2>
             @for (int i = 0; i < monitoringObecnosc.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.monitoring1" />
-                    @monitoringObecnosc[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.monitoring1" />
                     <div class="state p-primary">
@@ -408,8 +386,6 @@ else if (page == 6)
             21. Czy zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
             @for (int i = 0; i < zgoda.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
-                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
                     <div class="state p-primary">
@@ -429,8 +405,6 @@ else if (page == 6)
             22. Czy zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
             @for (int i = 0; i < zgoda.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
-                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
                     <div class="state p-primary">
@@ -449,8 +423,6 @@ else if (page == 6)
             23. Czy zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
             @for (int i = 0; i < zgoda.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
-                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
                     <div class="state p-primary">
@@ -477,8 +449,6 @@ else if (page == 12)
             6. Czy w Pani/Pana otoczeniu jest/była osoba z zaawansowaną chorobą (osoba wymagająca ciągłej opieki)?<h2></h2>
             @for (int i = 0; i < taknie.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.choraosoba" />
-                    @taknie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.choraosoba" />
                     <div class="state p-primary">
@@ -493,8 +463,6 @@ else if (page == 12)
             7. Czy mieszka Pani/Pan razem z osobą w podeszłym wieku?<h2></h2>
             @for (int i = 0; i < taknie.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.mieszkaniezseniorem" />
-                    @taknie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.mieszkaniezseniorem" />
                     <div class="state p-primary">
@@ -522,8 +490,6 @@ else if (page == 13)
             8. Czy opiekowała/opiekował się Pani/Pan tą osobą? Jeśli tak, to jak często? <h2></h2>
             @for (int i = 0; i < opieka.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.opieka" />
-                    @opieka[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.opieka" />
                     <div class="state p-primary">
@@ -550,8 +516,6 @@ else if (page == 14)
             9. Czy czuje się Pani/Pan w swoim domu bezpiecznie?<h2></h2>
             @for (int i = 0; i < pytanie.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
-                    @pytanie[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.bezpieczenstwo" />
                     <div class="state p-primary">
@@ -568,7 +532,6 @@ else if (page == 14)
             @for (int i = 0; i < poprawabezp.Length; i++)
             {
                 var m = poprawabezp[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
                 <div class="pretty p-default p-curve">
                     <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, poprawabezpList); }" />
                     <div class="state p-primary-o">
@@ -582,8 +545,6 @@ else if (page == 14)
             11. Jak ocenia Pani/Pan swoje oswojenie z nowoczesną technologią? (obsługa smartfona, komputera, telewizora itp.)<h2></h2>
             @for (int i = 0; i < pytaniedobrze.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
-                    @pytaniedobrze[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.technologia" />
                     <div class="state p-primary">
@@ -599,7 +560,6 @@ else if (page == 14)
             @for (int i = 0; i < urzadzenia.Length; i++)
             {
                 var m = urzadzenia[i];
-                @*<input type="checkbox" class="pretty p-default p-round" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value); }" />@m<br />*@
                 <div class="pretty p-default p-curve">
                     <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(m, eventArgs.Value, urzadzeniaList); }" />
                     <div class="state p-primary-o">
@@ -613,8 +573,6 @@ else if (page == 14)
             13. Czy korzysta Pani/Pan z internetu?<h2></h2>
             @for (int i = 0; i < czestosc.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
-                    @czestosc[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.internet" />
                     <div class="state p-primary">
@@ -630,8 +588,6 @@ else if (page == 14)
             14. Ile czasu dziennie spędza Pani/Pan przed komputerem/smartfonem?<h2></h2>
             @for (int i = 0; i < czestoscGodziny.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
-                    @czestoscGodziny[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.internet2" />
                     <div class="state p-primary">
@@ -663,8 +619,6 @@ else if (page == 15)
             15. Czy gdyby była/był Pani/Pan w podeszłym wieku, zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
             @for (int i = 0; i < zgoda.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
-                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.wizyjny" />
                     <div class="state p-primary">
@@ -684,8 +638,6 @@ else if (page == 15)
             16. Czy gdyby była/był Pani/Pan w podeszłym wieku, zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
             @for (int i = 0; i < zgoda.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
-                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.czujnik" />
                     <div class="state p-primary">
@@ -704,8 +656,6 @@ else if (page == 15)
             17. Czy gdyby była/był Pani/Pan w podeszłym wieku, zgodziłaby/zgodziłby się Pani/Pan na zainstalowanie takiej formy monitoringu we własnym domu?<h2></h2>
             @for (int i = 0; i < zgoda.Length; i++)
             {
-                @*<InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
-                    @zgoda[i] <h2></h2>*@
                 <div class="pretty p-icon p-round">
                     <InputRadio SelectedValue=i @bind-Value="_jeden.robot" />
                     <div class="state p-primary">
@@ -724,16 +674,13 @@ else if (page == 15)
 }
 else if (page == 20)
 {
-
+    @*Za każdym razem kiedy respondent zakończy ankietę wyśwetlą mu się jego średnie wyniki poziomów (np. stanu fizycznego) oraz jak porównuje się to ze średnimi wynikami wszystkich respondentów*@
     <p>Twój wiek to @respondent.Wiek, a wiek średni respondentów to @avgAge</p>
     <p>Twój poziom stanu fizycznego to @resFiz, a średni stan fizyczny respondentów jest na poziomie @avgFiz</p>
     <p>Twój poziom wiedzy o technologii to @resWiedzaTech, a średnia wiedza na ten temat respondentów jest na poziomie @avgWiedzaTech</p>
     <p>Twój poziom wiedzy o monitoringu to @resWiedzaMon, a średnia wiedza na ten temat respondentów jest na poziomie @avgWiedzaMon</p>
     <p>Twój poziom odczucia na temat monitoringu to @resOdczuciaMon, a średnie odczucia respondentów są na poziomie @avgOdczuciaMon</p>
-
-
-
-
+         
 }
 
 @code {
@@ -753,6 +700,8 @@ else if (page == 20)
     private Wiek _wiek = new Wiek();
     private Data.Walidacje _jeden = new Data.Walidacje();
     Respondent respondent = new Respondent();
+
+    // Wszystkie możliwe odpowiedzi na pytania zostały zapisane do tabel, następnie zawartości odpowiednich tabel są wyśietlane przy odpowiednich pytaniach
 
     String[] wyksztalcenie = new String[] { "Podstawowe", "Gimnazjalne", "Zasadnicze zawodowe", "Średnie", "Wyższe" };
 
@@ -798,6 +747,7 @@ else if (page == 20)
 
     String[] opieka = new String[] { "Codziennie", "kilka razy w tygodniu", "kilka razy w miesiącu", "rzadziej", "nie opiekowałam/opiekowałem się wcale" };
 
+    //Listy do których zapisywane są zaznaczane checkboxy w ospowiednich pytaniach
 
     public List<string> chorobyList { get; set; } = new List<string>();
     public List<string> dolegliwosciList { get; set; } = new List<string>();
@@ -808,6 +758,8 @@ else if (page == 20)
     public List<string> urzadzeniaList { get; set; } = new List<string>();
     public List<string> zabezpieczeniaList { get; set; } = new List<string>();
     protected string OkayDisabled { get; set; } = "disabled";
+
+    //Wartości potrzebne do wyświetlenia statystyk na końcu ankiety
 
     public double avgAge;
     public double avgFiz;
@@ -820,8 +772,8 @@ else if (page == 20)
     public double resOdczuciaMon;
 
 
-
-    private void SetOkDisabledStatus()
+    //Funkcja ta jest potrzebna ponieważ Blazor wyświetla błedne wypełnione pola, jednak jeśli jest to pole tekstowe, ponowne wciśnięcie przycisku przejścia dalej pozwala na taką niezgodność
+    private void SetOkDisabledStatus()  //Funkcja wywołowana po wpisaniu wieku - jeśli wiek jest prawidłowy aktywuje się przycisk przejścia dalej, jeśli nie, przycisk zostaje zdezaktywowany
     {
         if (@_wiek.lata <= 120 && _wiek.lata >= 1)
         {
@@ -833,7 +785,7 @@ else if (page == 20)
         }
     }
 
-    void CheckboxClicked(string zaznaczonycheck, object checkedValue, List<string> lista)
+    void CheckboxClicked(string zaznaczonycheck, object checkedValue, List<string> lista) //Funkcja wywoływana przy naciśnięciu jakiegokolwiek checkboxa - sprawdza czy kliknięta wartość jest w podanej liście jeśli nie to ją zapisuje, a jeśli tak to ją usuwa 
     {
         if ((bool)checkedValue)
         {
@@ -862,6 +814,8 @@ else if (page == 20)
     {
         EFGetStarted.Program program = new EFGetStarted.Program();
         BlazorApp1.Data.GetAllData getData = new BlazorApp1.Data.GetAllData(respondent);
+
+        //Co się dzieje po naciśnięciu przycisku przejścia dalej w zależności od strony:
 
         if (page == 1)
         {
@@ -898,16 +852,16 @@ else if (page == 20)
 
             respondent.Update(sex, grupa, _wiek.lata, wyksztalcenie[@_jeden.wyksztalcenie], new List<Choroba>(), new List<StanFizyczny>(), new List<OsobaBliska>(),
                 new List<OdczuciawDomu>(), new List<TechnologiaWiedza>(), new List<AwariaWiedza>(), new List<MonitoringOdczucia>(), new List<DoswiadczenieZSeniorem>()
-                , new List<MonitoringWiedza>());
+                , new List<MonitoringWiedza>());    //Implementacja zmiennej respondent, która następnie będzie zapisan w bazie danych
 
 
             foreach (var choroba1 in chorobyList)
             {
-                var choroba = new Choroba { Nazwa = choroba1, Respondent = respondent };
+                var choroba = new Choroba { Nazwa = choroba1, Respondent = respondent };    //Stworzenie dla każdej zaznaczonej w ankiecie choroby elementu w bazie danych i dodanie go do respondenta
                 respondent.Choroby.Add(choroba);
 
             }
-            var stanfizyczny = new StanFizyczny { Respondent = respondent, Poziom = @_jeden.zdrowie };
+            var stanfizyczny = new StanFizyczny { Respondent = respondent, Poziom = @_jeden.zdrowie };  //Zapisanie poziomu stanu fizycznego i dodanie stanu fizycznego do respondenta w bazie 
             respondent.StanyFizyczne.Add(stanfizyczny);
 
         }
@@ -984,7 +938,7 @@ else if (page == 20)
         else if (page == 6)
         {
             page = 20;
-            title = "Dziękujemy za wypełnienie naszej ankiety!";
+            title = "Dziękujemy za wypełnienie naszej ankiety!";    //Zmiana tytułu strony
             var odczuciaM2 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.wizyjny };
             var odczuciaM3 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.czujnik };
             var odczuciaM4 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.robot };
@@ -992,7 +946,7 @@ else if (page == 20)
             respondent.MonitoringOdczucias.Add(odczuciaM2);
             respondent.MonitoringOdczucias.Add(odczuciaM3);
             respondent.MonitoringOdczucias.Add(odczuciaM4);
-            program.CreateRespondent(respondent);
+            program.CreateRespondent(respondent);   //Zakończenie wypełniania ankiety i tworzenie respondenta w bazie
 
 
         }
@@ -1048,7 +1002,7 @@ else if (page == 20)
         else if (page == 15)
         {
             page = 20;
-            title = "Dziękujemy za wypełnienie naszej ankiety!";
+            title = "Dziękujemy za wypełnienie naszej ankiety!";    //Zmiana tytułu strony
             var odczuciaM2 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.wizyjny };
             var odczuciaM3 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.czujnik };
             var odczuciaM4 = new MonitoringOdczucia { Respondent = respondent, Poziom = 4 - @_jeden.robot };
@@ -1056,7 +1010,9 @@ else if (page == 20)
             respondent.MonitoringOdczucias.Add(odczuciaM2);
             respondent.MonitoringOdczucias.Add(odczuciaM3);
             respondent.MonitoringOdczucias.Add(odczuciaM4);
-            program.CreateRespondent(respondent);
+            program.CreateRespondent(respondent);   //Zakończenie wypełniania ankiety i tworzenie respondenta w bazie
+
+            //Pobranie wartości średnich poziomów dla respondenta i dla respondentów którzy już wcześniej wypełnili ankietę
 
             avgAge = Math.Round(getData.GetAverageAge(respondent), 2);
             avgFiz = Math.Round(getData.GetAverageFiz(respondent), 2);

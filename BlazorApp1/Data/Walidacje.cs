@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BlazorApp1.Data
 {
-    public class Walidacje
+    public class Walidacje  //Walidacje wszystkich radiobuttonów
     {
         [Range(0, 4, ErrorMessage = "Wybierz")]
         public int wyksztalcenie { get; set; }
