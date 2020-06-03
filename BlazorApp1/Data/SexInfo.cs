@@ -8,7 +8,7 @@ namespace BlazorApp1.Data
 {
     public class SexInfo
     {
-        public List<SexData> GetSexData()   //Pobranie informacji o płci w celu stworzenia wykresu i wszystko zachodzi analogicznie jak w klasie AgeInfo
+        public List<SexData> GetSexData()   //Pobranie informacji o płci w celu stworzenia wykresu - wszystko zachodzi analogicznie jak w klasie AgeInfo
         {
             List<Boolean> sex;
 

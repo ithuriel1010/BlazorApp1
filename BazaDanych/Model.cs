@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EFGetStarted
 {
-    public class BloggingContext : DbContext
+    public class BloggingContext : DbContext    //Klasa z definicją wszystkich tabel w bazie danych
     {
         public DbSet<Respondent> Respondent { get; set; }
         public DbSet<Choroba> Choroba { get; set; }

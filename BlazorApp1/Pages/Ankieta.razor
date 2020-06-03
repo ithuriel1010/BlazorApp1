@@ -8,7 +8,7 @@
 <h1>@title</h1>
 
 @*Tworzenie ankiety - wszystkich radiobuttonów/checkboxów oraz pytania o wiek
-    Każde pytanie jest możliwe do stworzenia za pomocą tylko jednaj lini - tworzyło to jednak szare i nudne radiobuttony/checkboxy, 
+    Każde pytanie byłoby możliwe do stworzenia za pomocą tylko jednej lini - tworzyło to jednak szare i nudne radiobuttony/checkboxy, 
     dlatego zostały dodane dodatkowe znaczniki, wydłużają one kod ale sprawiają że ankieta ma bardziej estetyczny wygląd*@
 
 @if (page == 1)
@@ -772,7 +772,7 @@ else if (page == 20)
     public double resOdczuciaMon;
 
 
-    //Funkcja ta jest potrzebna ponieważ Blazor wyświetla błedne wypełnione pola, jednak jeśli jest to pole tekstowe, ponowne wciśnięcie przycisku przejścia dalej pozwala na taką niezgodność
+    //Funkcja ta jest potrzebna ponieważ Blazor wyświetla błąd o błednie wypełnione pola, jednak jeśli jest to pole tekstowe/numeryczne, ponowne wciśnięcie przycisku przejścia dalej pozwala na taką niezgodność
     private void SetOkDisabledStatus()  //Funkcja wywołowana po wpisaniu wieku - jeśli wiek jest prawidłowy aktywuje się przycisk przejścia dalej, jeśli nie, przycisk zostaje zdezaktywowany
     {
         if (@_wiek.lata <= 120 && _wiek.lata >= 1)
@@ -948,6 +948,18 @@ else if (page == 20)
             respondent.MonitoringOdczucias.Add(odczuciaM4);
             program.CreateRespondent(respondent);   //Zakończenie wypełniania ankiety i tworzenie respondenta w bazie
 
+            //Pobranie wartości średnich poziomów dla respondenta i dla respondentów którzy już wcześniej wypełnili ankietę (zaokrąglenie wyników do drugiego miejsca po przecinku)
+
+            avgAge = Math.Round(getData.GetAverageAge(respondent), 2);
+            avgFiz = Math.Round(getData.GetAverageFiz(respondent), 2);
+            avgOdczuciaMon = Math.Round(getData.GetAverageOdczuciaMon(respondent), 2);
+            avgWiedzaMon = Math.Round(getData.GetAverageWiedzaMon(respondent), 2);
+            avgWiedzaTech = Math.Round(getData.GetAverageWiedzaTech(respondent), 2);
+            resFiz = Math.Round(getData.GetResFiz(respondent), 2);
+            resOdczuciaMon = Math.Round(getData.GetResOdczuciaMon(respondent), 2);
+            resWiedzaMon = Math.Round(getData.GetResWiedzaMon(respondent), 2);
+            resWiedzaTech = Math.Round(getData.GetResWiedzaTech(respondent), 2);
+
 
         }
         else if (page == 12)
@@ -1012,7 +1024,7 @@ else if (page == 20)
             respondent.MonitoringOdczucias.Add(odczuciaM4);
             program.CreateRespondent(respondent);   //Zakończenie wypełniania ankiety i tworzenie respondenta w bazie
 
-            //Pobranie wartości średnich poziomów dla respondenta i dla respondentów którzy już wcześniej wypełnili ankietę
+            //Pobranie wartości średnich poziomów dla respondenta i dla respondentów którzy już wcześniej wypełnili ankietę (zaokrąglenie wyników do drugiego miejsca po przecinku)
 
             avgAge = Math.Round(getData.GetAverageAge(respondent), 2);
             avgFiz = Math.Round(getData.GetAverageFiz(respondent), 2);

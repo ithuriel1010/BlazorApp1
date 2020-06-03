@@ -44,7 +44,7 @@ namespace BlazorApp1.Data
 
             using (var db = new BloggingContext())
             {
-                var group = db.Respondent.Where(x => x.RespondentId != respondent.RespondentId).SelectMany(x => x.TechnologiaWiedzas).Average(x => x.Poziom);   //Obliczenie średniego poziomu wiedzy o technologii wszystkich respondentów
+                var group = db.Respondent.Where(x => x.RespondentId != respondent.RespondentId).SelectMany(x => x.MonitoringWiedzas).Average(x => x.Poziom);   //Obliczenie średniego poziomu wiedzy o monitoringu wszystkich respondentów
                 avgWiedzaMon = group;
             }
             return (avgWiedzaMon);
@@ -116,7 +116,7 @@ namespace BlazorApp1.Data
 
             using (var db = new BloggingContext())
             {
-                var group = db.Respondent.Where(x => x.RespondentId != respondent.RespondentId).SelectMany(x => x.MonitoringOdczucias).Average(x => x.Poziom);  //Obliczenie średniego poziomu odczuć do monitoringu respondenta
+                var group = db.Respondent.Where(x => x.RespondentId == respondent.RespondentId).SelectMany(x => x.MonitoringOdczucias).Average(x => x.Poziom);  //Obliczenie średniego poziomu odczuć do monitoringu respondenta
                 avgOdczuciaMon = group;
             }
             return (avgOdczuciaMon);

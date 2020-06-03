@@ -9,7 +9,7 @@ namespace BlazorApp1.Data
     public class WyksztalcenieInfo
     {
            
-        public List<ChartData> GetData()    //Pobranie informacji o wykształceniu w celu stworzenia wykresu i wszystko zachodzi analogicznie jak w klasie AgeInfo
+        public List<ChartData> GetData()    //Pobranie informacji o wykształceniu w celu stworzenia wykresu - wszystko zachodzi analogicznie jak w klasie AgeInfo
         {
             List<String> wykszt;
 
